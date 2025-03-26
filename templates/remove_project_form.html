@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Remove Project</h2>
+  <form method="POST" action="{{ url_for('remove_project') }}">
+    <div class="form-group">
+      <label>Project ID:</label>
+      <input type="number" name="project_id" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-danger">Remove Project</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Our Construction Projects</h1>
+    
+    <div class="row row-cols-1 row-cols-lg-2 g-4" id="projectContainer">
+        <!-- Project 1 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="row g-0 h-100">
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/Project3.jpg') }}" 
+                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             alt="Skyscraper Tower">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h2 class="card-title">Skyscraper Tower</h2>
+                            <p class="card-text flex-grow-1">A modern skyscraper with advanced architecture and sustainability features. This project includes state-of-the-art facilities and eco-friendly designs, making it a landmark in the city.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="row g-0 h-100">
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/Project2.jpg') }}" 
+                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             alt="Luxury Apartments">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h2 class="card-title">Luxury Apartments</h2>
+                            <p class="card-text flex-grow-1">High-end apartments offering a premium living experience with top facilities. These apartments are designed with luxury in mind, featuring spacious layouts and high-quality finishes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="row g-0 h-100">
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/Project1.jpg') }}" 
+                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             alt="Corporate Office Complex">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h2 class="card-title">Corporate Office Complex</h2>
+                            <p class="card-text flex-grow-1">An innovative office complex designed for efficiency and sustainability. This complex provides a modern workspace with advanced technology and green building practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="row g-0 h-100">
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/Project4.jpg') }}" 
+                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             alt="Shopping Mall">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h2 class="card-title">Shopping Mall</h2>
+                            <p class="card-text flex-grow-1">A large shopping mall with a variety of retail stores, restaurants, and entertainment options. This project is designed to be a hub for shopping and leisure activities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+</script>
+
+<style>
+    
+</style>
+{% endblock %}

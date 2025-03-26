@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Add New Project</h2>
+  <form method="POST" action="{{ url_for('add_project') }}">
+    <div class="form-group">
+      <label>Project Name:</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Start Date:</label>
+      <input type="date" name="start_date" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>End Date:</label>
+      <input type="date" name="end_date" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Client ID:</label>
+      <input type="number" name="client_id" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Manager ID:</label>
+      <input type="number" name="manager_id" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Budget:</label>
+      <input type="number" step="0.01" name="budget" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Project Location:</label>
+      <input type="text" name="project_location" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Description:</label>
+      <textarea name="description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Status:</label>
+      <select name="status" class="form-control" required>
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Project</button>
+  </form>
+</div>
+{% endblock %}

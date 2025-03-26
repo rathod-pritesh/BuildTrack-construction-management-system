@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Construction Management System</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+      /* Custom styles with improved color scheme */
+      :root {
+        --primary: #ff6f61; /* Coral */
+        --secondary: #6b5b95; /* Purple */
+        --dark: #2c3e50; /* Dark blue/gray */
+        --light: #f4f4f4; /* Light gray */
+        --danger: #e74c3c; /* Red */
+        --success: #2ecc71; /* Green */
+        --warning: #f39c12; /* Yellow/Orange */
+        --text-dark: #222222; /* Near black */
+        --text-light: #ffffff; /* White */
+      }
+
+      body {
+        background-image: url("https://source.unsplash.com/random/1920x1080/?construction");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        position: relative;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.65);
+        z-index: -1;
+      }
+
+      .navbar {
+        background-color: rgba(44, 62, 80, 0.95) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand,
+      .nav-link {
+        color: var(--text-light) !important;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand {
+        color: var(--primary) !important;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .nav-link {
+        position: relative;
+        padding: 8px 15px !important;
+      }
+
+      .nav-link:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary);
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover:after {
+        width: 80%;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary) !important;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: var(--text-dark);
+        border-color: var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #e65a50;
+        border-color: #e65a50;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
+      }
+
+      .btn-outline-primary {
+        color: var(--text-light);
+        border-color: var(--primary);
+        background-color: transparent;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-primary:hover {
+        background-color: rgba(255, 111, 97, 0.2);
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .page-title {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        animation: fadeInDown 1s;
+      }
+
+      .page-content {
+        background-color: rgba(44, 62, 80, 0.85);
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 1s;
+      }
+
+      .progress-bar {
+        background-color: var(--primary);
+        transition: width 0.5s ease;
+      }
+
+      .profile-circle {
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary);
+        color: var(--text-dark);
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .profile-circle:hover {
+        background-color: #e65a50;
+        transform: scale(1.1);
+      }
+
+      .social-icon {
+        width: 35px;
+        height: 35px;
+        background-color: #fff;
+        border-radius: 50%;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--dark);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .social-icon:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      footer {
+        background: rgba(44, 62, 80, 0.95);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .toast-container {
+        z-index: 1100;
+      }
+
+      /* Modal Styles */
+      .modal-content {
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        border: none;
+      }
+
+      .modal-header {
+        background-color: var(--primary);
+        color: var(--text-dark);
+        border-radius: 15px 15px 0 0;
+        border-bottom: none;
+      }
+
+      .modal-title {
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .form-title-icon {
+        font-size: 1.8rem;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.25rem rgba(255, 111, 97, 0.25);
+      }
+
+      .otp-input {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .otp-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.25rem rgba(255, 111, 97, 0.25);
+        transform: scale(1.05);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translate3d(0, 30px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -30px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      .fadeInUp {
+        animation: fadeInUp 0.6s;
+      }
+
+      .fadeIn {
+        animation: fadeIn 0.6s;
+      }
+
+      .fadeInDown {
+        animation: fadeInDown 0.6s;
+      }
+
+      .feature-item {
+        transition: all 0.3s ease;
+      }
+
+      .feature-item:hover {
+        transform: translateX(10px);
+        color: var(--primary);
+      }
+
+      .section-title {
+        border-left: 4px solid var(--primary);
+        padding-left: 10px;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+            .nav-buttons {
+                display: flex;
+                justify-content: end;
+                align-items: center;
+            }
+            .navbar-brand {
+                flex-grow: 1;
+                text-align: center;
+            }
+            .navbar-toggler {
+                order: -1; /* Move hamburger menu to the left */
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
+        <a class="navbar-brand animate__animated animate__fadeIn" href="#">
+          <i class="bi bi-building"></i> BuildTrack
+        </a>
+
+        <button
+          class="navbar-toggler ms-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact Us</a>
+            </li>
+          </ul>
+          <div class="d-none d-lg-flex" id="userActionButtons">
+            <button
+              class="btn btn-outline-primary me-2 animate__animated animate__fadeIn"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+            >
+              <i class="bi bi-box-arrow-in-right"></i> Login
+            </button>
+            <button
+              class="btn btn-primary animate__animated animate__fadeIn"
+              data-bs-toggle="modal"
+              data-bs-target="#registerModal"
+            >
+              <i class="bi bi-person-plus"></i> Register
+            </button>
+          </div>
+
+          
+          <div class="dropdown d-none" id="userProfileMenu">
+            <button
+              class="btn rounded-circle profile-circle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              U
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div
+        class="progress position-absolute bottom-0 start-0 w-100"
+        style="height: 3px"
+      >
+        <div
+          class="progress-bar"
+          role="progressbar"
+          style="width: 0%"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+    </nav>
+
+    <!-- Notification Toasts -->
+    <div
+      class="toast-container position-fixed top-0 end-0 p-3"
+      style="margin-top: 70px"
+    >
+      <div
+        id="notificationToast"
+        class="toast align-items-center text-white border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body"></div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content animate__animated animate__fadeInUp">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">
+              <i class="bi bi-person-check form-title-icon"></i> Welcome Back
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-4">
+              <h4>Login to Your Account</h4>
+              <p class="text-muted">Access your projects and continue building</p>
+            </div>
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label"><i class="bi bi-lock"></i> Password</label>
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-password"
+                    type="button"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="rememberMe">
+                  <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="text-decoration-none">Forgot Password?</a>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-box-arrow-in-right"></i> Login Now
+              </button>
+              <div class="text-center mt-3">
+                Don't have an account?
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#registerModal"
+                  data-bs-dismiss="modal"
+                  >Register</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div
+      class="modal fade"
+      id="registerModal"
+      tabindex="-1"
+      aria-labelledby="registerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content animate__animated animate__fadeInUp">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">
+              <i class="bi bi-person-plus form-title-icon"></i> Join BuildTrack
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-4">
+              <h4>Create Your Account</h4>
+              <p class="text-muted">Start managing your construction projects today</p>
+            </div>
+            <form id="registerForm">
+              <div class="mb-3">
+                <label for="username" class="form-label"><i class="bi bi-person"></i> Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Choose a username"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label"><i class="bi bi-lock"></i> Password</label>
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="Create a password"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-password"
+                    type="button"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                <small class="text-muted">
+                  Password must be at least 8 characters with letters, numbers and special characters
+                </small>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label"><i class="bi bi-shield-lock"></i> Confirm Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                <label class="form-check-label" for="termsCheck">
+                  I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </label>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-envelope-check"></i> Verify Email
+              </button>
+              <div class="text-center mt-3">
+                Already have an account?
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#loginModal"
+                  data-bs-dismiss="modal"
+                  >Login</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTP Verification Modal -->
+    <div
+      class="modal fade"
+      id="otpModal"
+      tabindex="-1"
+      aria-labelledby="otpModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content animate__animated animate__fadeInUp">
+          <div class="modal-header">
+            <h5 class="modal-title" id="otpModalLabel">
+              <i class="bi bi-shield-check form-title-icon"></i> Verification
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center mb-4">
+              <h4>Enter OTP Code</h4>
+              <p class="text-muted">
+                We've sent a 6-digit code to your email. Please enter it below to verify your account.
+              </p>
+            </div>
+            <form id="otpForm">
+              <div class="d-flex justify-content-between mb-4">
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+                <input
+                  type="text"
+                  class="form-control otp-input text-center mx-1"
+                  maxlength="1"
+                  pattern="[0-9]"
+                  required
+                />
+              </div>
+              <div class="text-center mb-3">
+                <div id="countdown" class="text-muted">Code expires in: <span id="timer">03:00</span></div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-check-circle"></i> Verify & Complete Registration
+              </button>
+              <div class="text-center mt-3">
+                Didn't receive code? <a href="#" id="resendOtp">Resend OTP</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="py-5 mt-5">
+      <div class="container">
+        <h1 class="page-title mb-4 animate__animated animate__fadeInDown">Welcome to BuildTrack</h1>
+        <div class="page-content p-4 text-white animate__animated animate__fadeIn">
+          <h3 class="section-title text-light">The Complete Construction Management Solution</h3>
+          <p>
+            BuildTrack is a comprehensive platform designed to help construction companies manage 
+            their projects efficiently, streamline workflows, and enhance productivity.
+          </p>
+          <p class="mt-3 mb-4">With BuildTrack, you can:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="mb-4 ms-4">
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Track project progress and timelines in real-time</li>
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Manage resources and personnel efficiently</li>
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Handle budgeting and financial aspects</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="mb-4 ms-4">
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Communicate with team members and clients</li>
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Generate detailed reports and analytics</li>
+                <li class="mb-2 feature-item"><i class="bi bi-check-circle-fill text-primary me-2"></i> Ensure project compliance and documentation</li>
+              </ul>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary btn-lg animate__animated animate__pulse animate__infinite animate__slower" data-bs-toggle="modal" data-bs-target="#registerModal">
+              <i class="bi bi-building-add"></i> Start Managing Your Projects Today
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-white py-4 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <h5 class="text-primary mb-3">About BuildTrack</h5>
+            <p>
+              BuildTrack is a comprehensive platform designed to streamline
+              construction project management processes for companies of all sizes.
+            </p>
+          </div>
+          <div class="col-md-4 mb-4">
+            <h5 class="text-primary mb-3">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">
+                  <i class="bi bi-house-door me-2"></i>Home
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">
+                  <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">
+                  <i class="bi bi-kanban me-2"></i>Projects
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">
+                  <i class="bi bi-info-circle me-2"></i>About Us
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">
+                  <i class="bi bi-envelope me-2"></i>Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-4">
+            <h5 class="text-primary mb-3">Contact Us</h5>
+            <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>123 Construction Avenue</p>
+            <p class="mb-1"><i class="bi bi-building me-2"></i>Building City, BC 12345</p>
+            <p class="mb-1"><i class="bi bi-telephone me-2"></i>Phone: (123) 456-7890</p>
+            <p class="mb-3"><i class="bi bi-envelope me-2"></i>Email: info@buildtrack.com</p>
+            <div class="d-flex">
+              <a href="#" class="social-icon me-2"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-icon me-2"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="social-icon me-2"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4 bg-light" />
+        <div class="text-center">
+          <p>&copy; 2025 BuildTrack. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // DOM Elements
+      const userActionButtonsLg = document.getElementById("userActionButtons");
+      const userActionButtonsSm = document.querySelector(".d-lg-none");
+      const progressBar = document.querySelector(".progress-bar");
+      const userProfileMenu = document.getElementById("userProfileMenu");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const otpForm = document.getElementById("otpForm");
+      const resendOtp = document.getElementById("resendOtp");
+      const notificationToast = document.getElementById("notificationToast");
+      const notificationToastBody = notificationToast.querySelector(".toast-body");
+      const togglePasswordBtns = document.querySelectorAll(".toggle-password");
+      const otpInputs = document.querySelectorAll(".otp-input");
+      const timerElement = document.getElementById("timer");
+
+      // Bootstrap Toast instance
+      const toast = new bootstrap.Toast(notificationToast);
+
+      // Bootstrap Modal instances
+      const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+      const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+      const otpModal = new bootstrap.Modal(document.getElementById("otpModal"));
+
+      // Variables
+      let isLoggedIn = false;
+      let lastScrollTop = 0;
+      let otpTimer;
+      let totalSeconds = 180; // 3 minutes
+
+      // Functions
+      function showNotification(message, type) {
+        notificationToastBody.textContent = message;
+        notificationToast.className =
+          "toast align-items-center text-white border-0";
+
+        if (type === "success") {
+          notificationToast.classList.add("bg-success");
+        } else if (type === "error") {
+          notificationToast.classList.add("bg-danger");
+        } else if (type === "warning") {
+          notificationToast.classList.add("bg-warning");
+          notificationToast.classList.replace("text-white", "text-dark");
+        }
+
+        toast.show();
+      }
+
+      function validatePassword(password) {
+        // At least 8 characters
+        if (password.length < 8) {
+          return "Password must be at least 8 characters long";
+        }
+
+        // At least one letter
+        if (!/[a-z]/i.test(password)) {
+          return "Password must contain at least one letter";
+        }
+
+        // At least one uppercase
+        if (!/[A-Z]/.test(password)) {
+          return "Password must contain at least one uppercase letter";
+        }
+
+        // At least one digit
+        if (!/\d/.test(password)) {
+          return "Password must contain at least one digit";
+        }
+
+        // At least one special character
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+          return "Password must contain at least one special character";
+        }
+
+        return true;
+      }
+
+      function updateUIForLoggedInUser() {
+        if (isLoggedIn) {
+          userActionButtonsLg.classList.add("d-none");
+          userActionButtonsSm.classList.add("d-none");
+          userProfileMenu.classList.remove("d-none");
+        } else {
+          userActionButtonsLg.classList.remove("d-none");
+          userActionButtonsLg.classList.add("d-lg-flex");
+          userActionButtonsSm.classList.remove("d-none");
+          userProfileMenu.classList.add("d-none");
+        }
+      }
+
+      // Event Listeners
+      window.addEventListener("scroll", () => {
+        const currentScrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const documentHeight =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrollPercentage = (currentScrollTop / documentHeight) * 100;
+
+        progressBar.style.width = `${scrollPercentage}%`;
+      });
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        if (!email || !password) {
+          showNotification("Please fill in all fields", "error");
+          return;
+        }
+
+        // Simulate login success
+        loginModal.hide();
+        isLoggedIn = true;
+        updateUIForLoggedInUser();
+        showNotification("Login successful", "success");
+        loginForm.reset();
+      });
+
+      registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        if (!username || !email || !password || !confirmPassword) {
+          showNotification("Please fill in all fields", "error");
+          return;
+        }
+
+        const passwordValidation = validatePassword(password);
+        if (passwordValidation !== true) {
+          showNotification(passwordValidation, "error");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showNotification(
+            "Password and confirm password do not match",
+            "error"
+          );
+          return;
+        }
+
+        // Simulate sending OTP
+        registerModal.hide();
+        otpModal.show();
+        showNotification("OTP sent to your email", "success");
+        registerForm.reset();
+      });
+
+      otpForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let otpValue = "";
+        otpInputs.forEach((input) => {
+          otpValue += input.value;
+        });
+
+        if (otpValue.length !== 6) {
+          showNotification("Please enter a valid 6-digit OTP", "error");
+          return;
+        }
+
+        // Simulate OTP verification success
+        otpModal.hide();
+        isLoggedIn = true;
+        updateUIForLoggedInUser();
+        showNotification("Registration successful", "success");
+        otpForm.reset();
+      });
+
+      resendOtp.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Clear existing OTP inputs
+        otpInputs.forEach((input) => {
+          input.value = "";
+        });
+
+        // Focus on first input
+        otpInputs[0].focus();
+
+        // Simulate resending OTP
+        showNotification("New OTP sent to your email", "success");
+      });
+
+      logoutBtn.addEventListener("click", () => {
+        isLoggedIn = false;
+        updateUIForLoggedInUser();
+        showNotification("Logged out successfully", "success");
+      });
+
+      // Password toggle functionality
+      togglePasswordBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const input = this.previousElementSibling;
+          const icon = this.querySelector("i");
+
+          if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace("bi-eye", "bi-eye-slash");
+          } else {
+            input.type = "password";
+            icon.classList.replace("bi-eye-slash", "bi-eye");
+          }
+        });
+      });
+
+      // OTP input handling
+      otpInputs.forEach((input, index) => {
+        input.addEventListener("keyup", (e) => {
+          if (e.key >= 0 && e.key <= 9) {
+            if (index < otpInputs.length - 1) {
+              otpInputs[index + 1].focus();
+            }
+          } else if (e.key === "Backspace") {
+            if (index > 0) {
+              otpInputs[index - 1].focus();
+            }
+          }
+        });
+      });
+
+      // Initialize UI
+      updateUIForLoggedInUser();
+
+      // Prevent default behavior for demo links
+      document.querySelectorAll("a").forEach((link) => {
+        if (
+          !link.hasAttribute("data-bs-toggle") &&
+          link.id !== "resendOtp" &&
+          link.id !== "logoutBtn"
+        ) {
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

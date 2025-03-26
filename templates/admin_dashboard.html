@@ -1,0 +1,276 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Panel</h2>
+        <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+    
+    <hr>
+
+    <!-- Buttons for different sections - Made responsive -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="btn-group d-flex flex-wrap">
+                <button class="btn btn-primary m-1 flex-grow-1" onclick="showSection('addUser')">
+                    <i class="fas fa-user-plus"></i> Add User
+                </button>
+                <button class="btn btn-danger m-1 flex-grow-1" onclick="showSection('removeUser')">
+                    <i class="fas fa-user-minus"></i> Remove User
+                </button>
+                <button class="btn btn-success m-1 flex-grow-1" onclick="showSection('addProject')">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+                <button class="btn btn-warning m-1 flex-grow-1" onclick="showSection('removeProject')">
+                    <i class="fas fa-trash"></i> Remove Project
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Section -->
+    <div id="addUser" class="admin-section card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Add User</h3>
+            <form method="POST" action="{{ url_for('admin.admin_add_user') }}">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Username:</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Email:</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Password:</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Add User
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Remove User Section -->
+    <div id="removeUser" class="admin-section card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Remove User</h3>
+            <form method="POST" action="{{ url_for('admin.admin_remove_user') }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">User ID:</label>
+                        <input type="number" name="user_id" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-user-minus"></i> Remove User
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Table - Made responsive -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Existing Users</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects with Reassignment Table - Made responsive -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Project Assignments</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered shadow-sm">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Assigned User</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.user.email if project.user else "Unassigned" }}</td>
+                            <td>
+                                <form action="{{ url_for('admin.admin_reassign_project') }}" method="POST" class="d-flex flex-column flex-md-row align-items-md-center">
+                                    <input type="hidden" name="project_id" value="{{ project.id }}">
+                                    <label for="new_user_email" class="me-2 mb-2 mb-md-0">Reassign to:</label>
+                                    <input type="email" name="new_user_email" class="form-control me-2 mb-2 mb-md-0" required>
+                                    <button type="submit" class="btn btn-primary btn-sm">Reassign</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project Section -->
+    <div id="addProject" class="admin-section card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Add New Project</h3>
+            <form method="POST" action="{{ url_for('admin.admin_add_project') }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Project Name:</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Status:</label>
+                        <select name="status" class="form-control" required>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Start Date:</label>
+                        <input type="date" name="start_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">End Date:</label>
+                        <input type="date" name="end_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Budget:</label>
+                        <input type="number" step="0.01" name="budget" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Client ID:</label>
+                        <input type="number" name="client_id" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Manager ID:</label>
+                        <input type="number" name="manager_id" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Project Location:</label>
+                        <input type="text" name="project_location" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Description:</label>
+                        <textarea name="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Assign to User (Email):</label>
+                        <input type="email" name="assigned_user_email" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Remove Project Section -->
+    <div id="removeProject" class="admin-section card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Remove Project</h3>
+            <form method="POST" action="{{ url_for('admin.admin_remove_project') }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Project ID:</label>
+                        <input type="number" name="project_id" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Remove Project
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Table - Made responsive -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Existing Projects</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered shadow-sm">
+                    <thead class="table-info">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Assigned User</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project.id }}</td>
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.start_date }}</td>
+                            <td>{{ project.end_date }}</td>
+                            <td>{{ project.budget }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' }}">
+                                    {{ project.status }}
+                                </span>
+                            </td>
+                            <td>{{ project.user.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Showing Sections -->
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.admin-section').forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.admin-section').forEach(section => {
+            section.style.display = 'none';
+        });
+    });
+</script>
+{% endblock %}

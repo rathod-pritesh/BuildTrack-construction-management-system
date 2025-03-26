@@ -1,0 +1,114 @@
+{% extends "index.html" %} 
+
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-lg-8 col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h2>Welcome, {{ username }}!</h2>
+        </div>
+        <div class="card-body">
+          <p class="lead">You are logged in with: <strong>{{ email }}</strong></p>
+          <hr />
+
+            <h4 class="mt-4">Attendance Report</h4>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover table-bordered shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Work Hours</th>
+                        <th>Overtime</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.attendance_date }}</td>
+                        <td><span class="badge bg-{{ 'success' if record.attendance_status == 'present' else 'danger' if record.attendance_status == 'absent' else 'warning' }}">{{ record.attendance_status }}</span></td>
+                        <td>{{ record.check_in_time or 'N/A' }}</td>
+                        <td>{{ record.check_out_time or 'N/A' }}</td>
+                        <td>{{ record.work_hours or 'N/A' }}</td>
+                        <td>{{ record.overtime_hours or 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          <h4 class="mt-4">Your Projects</h4>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered shadow-sm">
+              <thead class="table-primary">
+                  <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Budget</th>
+                      <th>Status</th>
+                  </tr>
+              </thead>
+              <tbody class="table-group-divider">
+                  {% for project in projects %}
+                  <tr>
+                      <td>{{ project.id }}</td>
+                      <td>{{ project.name }}</td>
+                      <td>{{ project.start_date }}</td>
+                      <td>{{ project.end_date }}</td>
+                      <td>${{ project.budget }}</td>
+                      <td>
+                          {% if project.status == 'active' %}
+                          <span class="badge bg-success">Active</span>
+                          {% elif project.status == 'pending' %}
+                          <span class="badge bg-warning">Pending</span>
+                          {% elif project.status == 'completed' %}
+                          <span class="badge bg-secondary">Completed</span>
+                          {% endif %}
+                      </td>
+                  </tr>
+                  {% endfor %} 
+                  
+                  {% if not projects %}
+                  <tr>
+                      <td colspan="6" class="text-center text-danger">
+                          No projects assigned to you yet.
+                      </td>
+                  </tr>
+                  {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+      <div class="card">
+        <div class="card-header">
+          <h4>Project Details</h4>
+        </div>
+        <div class="card-body">
+          <p>Select a project from the list to view detailed information.</p>
+          <div class="mt-4">
+            <h5>Quick Links</h5>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="{{ url_for('projects') }}"><i class="fas fa-project-diagram"></i> All Projects</a>
+              </li>
+              <li class="list-group-item">
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

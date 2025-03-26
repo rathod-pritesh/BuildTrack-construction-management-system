@@ -1,0 +1,100 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h1 class="display-4 fw-bold mb-4">About BuildTrack</h1>
+            <p class="lead text-muted">Revolutionizing construction project management since 2015</p>
+            <hr class="my-4">
+            <p>BuildTrack is a comprehensive construction management platform designed to streamline project workflows, enhance team collaboration, and deliver projects on time and within budget.</p>
+            
+            <div class="mt-5">
+                <div class="d-flex mb-4">
+                    <div class="me-4 text-primary">
+                        <i class="fas fa-bullseye fa-2x"></i>
+                    </div>
+                    <div>
+                        <h3>Our Mission</h3>
+                        <p>To empower construction professionals with intuitive tools that simplify complex processes and drive project success.</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-4">
+                    <div class="me-4 text-primary">
+                        <i class="fas fa-eye fa-2x"></i>
+                    </div>
+                    <div>
+                        <h3>Our Vision</h3>
+                        <p>To become the global standard in construction project management technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <img src="{{ url_for('static', filename='images/construction_team.jpg') }}" 
+                 alt="Construction team working" 
+                 class="img-fluid rounded shadow-lg">
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5">Why Choose BuildTrack?</h2>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                    <h3>Real-time Analytics</h3>
+                    <p>Make data-driven decisions with our comprehensive dashboard and reporting tools.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h3>Team Collaboration</h3>
+                    <p>Seamless communication and task management for your entire team.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access project data anytime, anywhere with our responsive mobile interface.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 bg-light p-4 rounded">
+        <div class="col-md-6">
+            <h2>Our Story</h2>
+            <p>Founded by construction industry veterans, BuildTrack was born from the need for better project management tools in the construction sector. After years of frustration with disjointed systems, our team set out to create an all-in-one solution.</p>
+            <p>Today, we serve over 500 companies worldwide, managing projects worth billions of dollars collectively.</p>
+        </div>
+        <div class="col-md-6 mb-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title mb-3">Project Walkthrough</h3>
+            <div class="ratio ratio-16x9 rounded">
+                <video controls class="rounded">
+                    <source src="{{ url_for('static', filename='videos/BuildTrack.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="mt-3 text-muted">Site construction timelapse</p>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+{% endblock %}
