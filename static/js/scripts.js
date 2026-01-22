@@ -104,58 +104,60 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Register Form Validation
-    const registerForm = document.querySelector('form[action*="register"]');
-    if (registerForm) {
-        registerForm.addEventListener('submit', function(e) {
-            const username = this.querySelector('input[name="username"]').value;
-            const email = this.querySelector('input[name="email"]').value;
-            const password = this.querySelector('input[name="password"]').value;
-            const confirmPassword = this.querySelector('input[name="confirmpassword"]').value;
-            
-            if (!username || !email || !password || !confirmPassword) {
-                e.preventDefault();
-                showToast("Please fill in all fields", "bg-danger");
-                return false;
-            }
-            
-            if (!validateEmail(email)) {
-                e.preventDefault();
-                showToast("Please enter a valid email address", "bg-danger");
-                return false;
-            }
-            
-            if (password.length < 8) {
-                e.preventDefault();
-                showToast("Password must be at least 8 characters long", "bg-danger");
-                return false;
-            }
-            
-            if (!/\d/.test(password)) {
-                e.preventDefault();
-                showToast("Password must contain at least one number", "bg-danger");
-                return false;
-            }
-            
-            if (!/[a-zA-Z]/.test(password)) {
-                e.preventDefault();
-                showToast("Password must contain at least one letter", "bg-danger");
-                return false;
-            }
-            
-            if (!/[!@#$%^&*]/.test(password)) {
-                e.preventDefault();
-                showToast("Password must contain at least one special character", "bg-danger");
-                return false;
-            }
-            
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                showToast("Passwords do not match", "bg-danger");
-                return false;
-            }
-        });
-    }
+    const registerForm = document.getElementById('registerForm');
+if (registerForm) {
+    registerForm.addEventListener('submit', function(e) {
+        const username = this.querySelector('input[name="username"]').value;
+        const email = this.querySelector('input[name="email"]').value;
+        const password = this.querySelector('input[name="password"]').value;
+        const confirmPassword = this.querySelector('input[name="confirmpassword"]').value;
+
+        if (!username || !email || !password || !confirmPassword) {
+            e.preventDefault();
+            showToast("Please fill in all fields", "bg-danger");
+            return false;
+        }
+
+        if (!validateEmail(email)) {
+            e.preventDefault();
+            showToast("Please enter a valid email address", "bg-danger");
+            return false;
+        }
+
+        if (password.length < 8) {
+            e.preventDefault();
+            showToast("Password must be at least 8 characters long", "bg-danger");
+            return false;
+        }
+
+        if (!/\d/.test(password)) {
+            e.preventDefault();
+            showToast("Password must contain at least one number", "bg-danger");
+            return false;
+        }
+
+        if (!/[a-zA-Z]/.test(password)) {
+            e.preventDefault();
+            showToast("Password must contain at least one letter", "bg-danger");
+            return false;
+        }
+
+        if (!/[!@#$%^&*]/.test(password)) {
+            e.preventDefault();
+            showToast("Password must contain at least one special character", "bg-danger");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            showToast("Passwords do not match", "bg-danger");
+            return false;
+        }
+
+        showToast("Waiting for admin approval", "bg-info");
+    });
+}
+
 
     // Email validation function
     function validateEmail(email) {
@@ -184,32 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Form validation messages
-    safeEventListener("registerForm", "submit", function (e) {
-        e.preventDefault();
-        const password = document.getElementById("registerPassword")?.value || "";
-        const confirmPassword = document.getElementById("registerConfirmPassword")?.value || "";
 
-        if (password.length < 8 || !/\d/.test(password) || !/[a-zA-Z]/.test(password) || !/[!@#$%^&*]/.test(password)) {
-            showToast("Password must be at least 8 characters long, contain a digit, a letter, and a special character.", "bg-danger");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            showToast("Passwords do not match.", "bg-danger");
-            return;
-        }
-
-        showToast("Registration successful! Please login.", "bg-success");
-        this.submit();
-    });
-
-    // OTP Verification Form
-    safeEventListener("otpForm", "submit", function (e) {
-        e.preventDefault();
-        showToast("OTP verified! Registration complete.", "bg-success");
-        window.location.href = "/login";
-    });
 
     // Login Form Handling
     safeEventListener("loginForm", "submit", function (e) {
@@ -269,3 +246,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize session timeout
     resetSessionTimeout();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach((link) => {
+      link.addEventListener("mouseover", function () {
+        link.classList.add("hover-effect");
+      });
+      link.addEventListener("mouseleave", function () {
+        link.classList.remove("hover-effect");
+      });
+    });
+  
+    // Smooth transition for login/register forms
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    if (loginForm) loginForm.style.animation = "fadeIn 0.5s ease-in-out";
+    if (registerForm) registerForm.style.animation = "fadeIn 0.5s ease-in-out";
+  });
+  
+  

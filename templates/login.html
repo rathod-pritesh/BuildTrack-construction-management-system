@@ -1,20 +1,32 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="container mt-5">
-  <h2>Login</h2>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="auth-form bg-white p-4 rounded shadow">
+  <h2 class="mb-4 text-center">Login</h2>
   <form action="{{ url_for('login') }}" method="POST">
+    
     <div class="mb-3">
       <label for="loginEmail" class="form-label">Email</label>
       <input type="email" class="form-control" name="email" required>
     </div>
+
     <div class="mb-3 position-relative">
       <label for="loginPassword" class="form-label">Password</label>
       <input type="password" class="form-control" name="password" required>
       <i class="fas fa-eye-slash toggle-password"></i>
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+
+    <div class="d-flex justify-content-start mb-3">
+      <a href="{{ url_for('forgot_password') }}" class="forgot-password-link">Forgot Password?</a>
+    </div>
+
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-primary px-5"><i class="fas fa-sign-in-alt"></i>Login</button>
+    </div>
+    
   </form>
-  <p class="mt-3">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+  <p class="mt-3 text-center">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+</div>
 </div>
 {% endblock %}

@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Admin Panel - Reports 📝</h2>
+    <div>
+      <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reportsUploadModal">
+        <i class="fas fa-file-upload"></i> Upload Report
+      </button>
+      <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="container-fluid mt-4">
+    <!-- Admin Uploaded Reports Section -->
+    <h4 class="mt-4 text-primary fw-bold">Admin Uploaded Reports</h4>
+    <ul class="list-group mb-4">
+      {% for report in reports %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{{ url_for('static', filename='uploads/reports/' + report.original_filename) }}" target="_blank">
+            {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
+          </a>
+          <form method="POST" action="{{ url_for('admin.delete_report') }}" style="display:inline;">
+            <input type="hidden" name="report_id" value="{{ report.id }}">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </form>
+        </li>
+      {% endfor %}
+      {% if not reports %}
+        <li class="list-group-item text-danger">No reports uploaded yet.</li>
+      {% endif %}
+    </ul>
+  
+           <!-- Member Uploaded Reports Section -->
+           <h4 class="mt-4 text-primary fw-bold">Member Uploaded Reports</h4>
+           <ul class="list-group mb-4">
+             {% for report in member_reports %}
+               <li class="list-group-item d-flex justify-content-between align-items-center">
+                 <div>
+                   <a href="{{ url_for('static', filename='uploads/reports/member_reports/' + report.original_filename) }}" target="_blank">
+                     {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
+                   </a>
+                 </div>
+               </li>
+             {% endfor %}
+             {% if not member_reports %}
+               <li class="list-group-item text-danger">No member reports uploaded yet.</li>
+             {% endif %}
+           </ul>
+  </div>
+  
+    </div>
+  </div>
+
+  
+
+<!-- Reports Upload Modal -->
+<div class="modal fade" id="reportsUploadModal" tabindex="-1" aria-labelledby="reportsUploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="reportsUploadModalLabel">Upload Reports</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('admin.upload_report') }}" method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="reportFile" class="form-label">Select Report File (PDF only, max 10MB)</label>
+            <input class="form-control" type="file" id="reportFile" name="report_file" accept=".pdf" required />
+            <div class="form-text">Only PDF files are accepted. Maximum file size: 10MB.</div>
+          </div>
+          <div class="mb-3">
+            <label for="reportTitle" class="form-label">Report Title</label>
+            <input type="text" class="form-control" id="reportTitle" name="report_title" required />
+          </div>
+          <div class="mb-3">
+            <label for="reportDescription" class="form-label">Description (Optional)</label>
+            <textarea class="form-control" id="reportDescription" name="report_description" rows="3"></textarea>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-upload me-2"></i>Upload Report
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // For reports
+  document.addEventListener("DOMContentLoaded", function() {
+    const fileInput = document.getElementById("reportFile");
+    if (fileInput) {
+      fileInput.addEventListener("change", function() {
+        const fileSizeLimit = 10 * 1024 * 1024; // 10MB in bytes
+
+        if (fileInput.files.length > 0) {
+          const fileSize = fileInput.files[0].size;
+          if (fileSize > fileSizeLimit) {
+            alert("File size exceeds 10MB limit. Please select a smaller file.");
+            fileInput.value = ""; // Clear the file input
+          }
+
+          const fileName = fileInput.files[0].name;
+          if (!fileName.toLowerCase().endsWith(".pdf")) {
+            alert("Only PDF files are accepted.");
+            fileInput.value = ""; // Clear the file input
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

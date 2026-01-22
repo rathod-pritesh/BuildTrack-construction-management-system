@@ -1,0 +1,73 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0"><i class="fas fa-camera me-2"></i> Face Recognition Attendance</h3>
+        </div>
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <h4>{{ 'Checking In' if attendance_type == 'check_in' else 'Checking Out' }}</h4>
+            <p class="text-muted">Please look at the camera to mark your attendance.</p>
+          </div>
+          
+          <div class="row">
+            <div class="col-12 text-center">
+              <div class="video-container border rounded" style="overflow:hidden;">
+                <img src="{{ url_for('video_feed') }}" width="100%" alt="Video Feed">
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-4 text-center">
+            <a href="{{ url_for('close_camera') }}" class="btn btn-danger">
+              <i class="fas fa-times-circle me-2"></i>Close Camera
+            </a>
+          </div>
+          
+          <div class="mt-4">
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Instructions:</strong>
+              <ul class="mb-0 mt-2">
+                <li>Make sure your face is clearly visible</li>
+                <li>The system will automatically detect your face and mark attendance</li>
+                <li>Once your attendance is marked, the camera will close automatically</li>
+                <li>You can also click "Close Camera" at any time</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Keep your existing timeout code
+  setTimeout(function() {
+    window.location.href = "{{ url_for('dashboard') }}";
+  }, 60000);
+  
+  // Add new AJAX polling for face detection
+document.addEventListener('DOMContentLoaded', function() {
+  // Check for detection every 1 second
+  const checkInterval = setInterval(function() {
+    fetch("{{ url_for('check_detection') }}")
+      .then(response => response.json())
+      .then(data => {
+        if (data.detected) {
+          clearInterval(checkInterval);
+          console.log("Face detected: " + data.name);
+          // Redirect to dashboard after detection
+          window.location.href = data.redirect;
+        }
+      })
+      .catch(error => console.error('Error checking detection:', error));
+  }, 1000);
+});
+  </script>
+{% endblock %}

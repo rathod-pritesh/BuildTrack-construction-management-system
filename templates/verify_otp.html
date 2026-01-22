@@ -1,0 +1,73 @@
+{% extends "index.html" %}
+{% block  content %}
+<style>
+    .otp-input {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+      text-align: center;
+      margin: 0 0.3rem;
+    }
+  </style>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+          <div class="card-header text-center">
+            <h4>Verify OTP</h4>
+          </div>
+          <div class="card-body text-center">
+            <form method="POST" id="otpForm">
+              <div class="d-flex justify-content-center mb-3">
+                {% for i in range(6) %}
+                <input type="text" class="form-control otp-input" maxlength="1" name="otp{{ i }}" required>
+                {% endfor %}
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">Verify</button>
+              </div>
+            </form>
+          </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="card-footer">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Automatically focus next input
+    const inputs = document.querySelectorAll(".otp-input");
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        if (input.value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !input.value && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+  
+    // Before submit, combine digits into hidden input
+    document.getElementById("otpForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const otp = Array.from(inputs).map(i => i.value).join("");
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = "otp";
+      hiddenInput.value = otp;
+      this.appendChild(hiddenInput);
+      this.submit();
+    });
+  </script>
+{% endblock %}

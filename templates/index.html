@@ -11,7 +11,18 @@
   <body>
     {% include 'header.html' %}
 
-    <!-- Flash Messages -->
+    <!-- Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            Notification message
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+    
     <div class="container mt-4">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -28,67 +39,113 @@
     <div class="container mt-4 pt-4">
       {% block content %}
       <div class="hero-section">
-        <div class="jumbotron bg-light p-5 rounded">
-          <h1 class="display-4">Welcome to BuildTrack</h1>
-          <p class="lead">The most comprehensive construction project management solution.</p>
+        <div class="home-content">
+          <h1 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Welcome to BuildTrack</h1>
+          <p class="lead">The most comprehensive construction project management solution for Bhagwati Infrastructure.</p>
           <hr class="my-4">
-          <p>Start managing your projects efficiently today!</p>
-          <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Get Started</a>
+          <p>Start managing your projects efficiently today with our all-in-one platform that streamlines workflow, reduces costs, and improves communication.</p>
+          {% if session.get('user_id') %}
+            <a class="btn btn-primary btn-lg" href="{{ url_for('dashboard') }}" role="button">Go to Dashboard</a>
+          {% else %}
+            <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Get Started</a>
+          {% endif %}
         </div>
       </div>
 
-      <div class="container mt-5">
-        <!-- Additional homepage content goes here -->
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3>Project Management</h3>
-                <p>
-                  Streamline your construction projects with our comprehensive
-                  tracking tools.
-                </p>
-              </div>
+      <div class="row mt-5 mb-4">
+        <div class="col-12 text-center">
+          <h2 class="section-heading text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Why Choose BuildTrack?</h2>
+          <p class="section-subheading">Comprehensive solutions for construction management needs</p>
+        </div>
+      </div>
+
+      <div class="row mb-5 features-section">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 feature-card">
+            <div class="card-body text-center">
+              <i class="fas fa-project-diagram fa-3x mb-3 text-primary"></i>
+              <h4 class="card-title">Project Management</h4>
+              <p class="card-text">Real-time project tracking, milestone management, and automated reporting to keep everyone in the loop.</p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3>Resource Planning</h3>
-                <p>
-                  Optimize your workforce and material allocation for maximum
-                  efficiency.
-                </p>
-              </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 feature-card">
+            <div class="card-body text-center">
+              <i class="fas fa-calculator fa-3x mb-3 text-primary"></i>
+              <h4 class="card-title">Cost Estimation</h4>
+              <p class="card-text">Accurate cost calculation tools to estimate materials, labor, and overall project expenses.</p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3>Quality Control</h3>
-                <p>
-                  Ensure every project meets the highest standards with our
-                  quality tracking.
-                </p>
-              </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 feature-card">
+            <div class="card-body text-center">
+              <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+              <h4 class="card-title">Team Management</h4>
+              <p class="card-text">Efficient workforce management with online attendance tracking and role-based access control.</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">For Project Managers</h3>
+              <ul class="feature-list">
+                <li>Real-time project tracking and reporting</li>
+                <li>Resource allocation and management</li>
+                <li>Budget monitoring and financial reports</li>
+                <li>Team communication and coordination</li>
+                <li>Document management system</li>
+              </ul>
+              {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View Dashboard</a>
+              {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Learn More</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">For Clients</h3>
+              <ul class="feature-list">
+                <li>Transparent project progress tracking</li>
+                <li>Regular automated reports</li>
+                <li>Easy communication with project team</li>
+                <li>Access to project documentation</li>
+                <li>Budget and timeline visibility</li>
+              </ul>
+              {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View Dashboard</a>
+              {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Learn More</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row cta-section py-5 my-5 rounded">
+        <div class="col-md-8 offset-md-2 text-center">
+          <h2 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Ready to Streamline Your Construction Projects?</h2>
+          <p class="lead">Join BuildTrack in revolutionizing construction management with BuildTrack.</p>
+          <div class="mt-4">
+            {% if session.get('user_id') %}
+              <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg mx-2">Go to Dashboard</a>
+              <a href="{{ url_for('projects') }}" class="btn btn-outline-secondary btn-lg mx-2">View Projects</a>
+            {% else %}
+              <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg mx-2">Sign Up Now</a>
+              <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg mx-2">Log In</a>
+            {% endif %}
           </div>
         </div>
       </div>
       {% endblock %}
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="me-auto">BuildTrack</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          <!-- Toast message will be inserted here -->
-        </div>
-      </div>
     </div>
 
     {% include 'footer.html' %}

@@ -1,11 +1,12 @@
 {% extends "index.html" %}
 
 {% block content %}
+
 <div class="container py-5">
     <div class="row align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-            <h1 class="display-4 fw-bold mb-4">About BuildTrack</h1>
-            <p class="lead text-muted">Revolutionizing construction project management since 2015</p>
+            <h1 class="display-4 fw-bold mb-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">About BuildTrack</h1>
+            <p class="lead text-muted">Revolutionizing construction project management since 2022</p>
             <hr class="my-4">
             <p>BuildTrack is a comprehensive construction management platform designed to streamline project workflows, enhance team collaboration, and deliver projects on time and within budget.</p>
             
@@ -39,11 +40,42 @@
         </div>
     </div>
 
+    <div style="max-width: 900px; margin: 50px auto; padding: 20px;">
+        <h1 style="text-align: center; margin-bottom: 30px;" class="text-primary fw-bold">Meet Our Interior Designer</h1>
+        <div style="
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        ">
+            <div style="flex: 1 1 300px; min-width: 280px;">
+                <img src="{{ url_for('static', filename='images/designer.jpeg') }}" alt="Interior Designer" style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                ">
+            </div>
+            <div style="flex: 2 1 400px; padding: 20px; min-width: 280px;">
+                <h2 style="margin-top: 0; color: #333;" class="text-primary fw-bold">Naman Sharma</h2>
+                <p style="color: #555; line-height: 1.6;">
+                    Naman is a professional interior designer with 10+ years of experience creating modern, functional, and beautiful spaces. He specializes in residential and commercial interiors.
+                </p>
+                <p><strong class="text-primary fw-bold">Email:</strong> naman.sharma@gmail.com</p>
+                <p><strong class="text-primary fw-bold">Phone:</strong> +91 98765 15648</p>
+            </div>
+        </div>
+    </div>
+    
+    
+
     <div class="row mt-5">
         <div class="col-12">
-            <h2 class="text-center mb-5">Why Choose BuildTrack?</h2>
+            <h2 class="text-center mb-5 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Why Choose BuildTrack?</h2>
         </div>
-        
+
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body text-center">
@@ -77,16 +109,16 @@
 
     <div class="row mt-5 bg-light p-4 rounded">
         <div class="col-md-6">
-            <h2>Our Story</h2>
-            <p>Founded by construction industry veterans, BuildTrack was born from the need for better project management tools in the construction sector. After years of frustration with disjointed systems, our team set out to create an all-in-one solution.</p>
+            <h2 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Our Story</h2>
+            <p>Founded by <span style="font-family: 'Montserrat', sans-serif; color:rgb(99, 150, 244);">Nimesh Jani</span>, BuildTrack was born from the need for better project management tools in the construction sector. After years of frustration with disjointed systems, our team set out to create an all-in-one solution.</p>
             <p>Today, we serve over 500 companies worldwide, managing projects worth billions of dollars collectively.</p>
         </div>
         <div class="col-md-6 mb-4">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h3 class="card-title mb-3">Project Walkthrough</h3>
+            <h3 class="card-title mb-3 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Project Walkthrough</h3>
             <div class="ratio ratio-16x9 rounded">
-                <video controls class="rounded">
+                <video autoplay muted loop class="rounded">
                     <source src="{{ url_for('static', filename='videos/BuildTrack.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

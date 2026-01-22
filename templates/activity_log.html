@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4>Activity Log</h4>
+    </div>
+    <div class="card-body">
+      {% if logs %}
+        <ul class="list-group">
+          {% for log in logs %}
+            <li class="list-group-item">{{ log.timestamp }} — {{ log.action }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="alert alert-warning">No activity found.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

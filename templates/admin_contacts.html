@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Admin Panel - Contacts 📫</h2>
+    <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+</div>
+  <hr />
+
+<!-- Contact Messages Section -->
+<div class="card mb-4">
+    <div class="card-body">
+      <h3 class="card-title text-primary">Contact Form Submissions</h3>
+      <ul class="list-group">
+        {% for msg in contact_messages %}
+        <li class="list-group-item">
+          <strong>{{ msg.name }}</strong> ({{ msg.email }})<br>
+          <strong>Subject:</strong> {{ msg.subject }}<br>
+          <strong>Message:</strong> {{ msg.message }}<br>
+          <small class="text-muted">Submitted on {{ msg.local_submitted_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">No contact messages submitted.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endblock %}

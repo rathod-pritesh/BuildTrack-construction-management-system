@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4>My Profile</h4>
+    </div>
+    <div class="card-body">
+      <p><strong>Name:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      {% if user.profile_image %}
+        <img src="{{ url_for('static', filename='uploads/profile/' + user.profile_image) }}" alt="Profile" class="img-thumbnail" width="150">
+      {% else %}
+        <div class="alert alert-info">No profile image uploaded.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
