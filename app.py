@@ -676,6 +676,27 @@ def account_settings():
 
     return render_template('account_settings.html', user=user)
 
+@app.route("/chatbot", methods=["POST"])
+def chatbot():
+    data = request.get_json()
+    msg = data.get("message", "").lower()
+
+    if "hii" in msg or "hello" in msg:
+        reply = "Hello 👷‍♂️ How can I help you?"
+    elif "attendance" in msg:
+        reply = "You can check attendance in the Attendance section 📸"
+    elif "project" in msg:
+        reply = "Project details are under Projects tab 📊"
+    elif "material" in msg:
+        reply = "Material stock is in Materials section 🧱"
+    elif "name" in msg:
+        reply = "My name is BuildBot.An assistant which can helps you to solve your any query."
+    elif "bye" in msg or "end" in msg:
+        reply = "Have a great day!"
+    else:
+        reply = "Sorry, I didn’t understand. Try asking about attendance, projects, or materials."
+    
+    return jsonify({"reply": reply})
 
 @app.route('/logout')
 def logout():

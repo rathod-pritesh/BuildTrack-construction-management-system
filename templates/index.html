@@ -146,10 +146,13 @@
         </div>
       </div>
       {% endblock %}
+
+      {% include "chatbot.html" %}
     </div>
 
     {% include 'footer.html' %}
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src={{ url_for('static', filename='js/chatbot.js') }}></script>
   </body>
 </html>
