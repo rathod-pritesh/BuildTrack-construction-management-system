@@ -2,55 +2,87 @@
 {% block content %}
 
 <div class="container-fluid mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-primary fw-bold"> Admin Dashboard</h2>
-    <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
+  <!-- Greeting Header -->
+  <div class="card-header d-flex justify-content-between align-items-center rounded shadow-sm mb-4 px-4 py-3 bg-primary text-white">
+    <h2 class="h3 fw-bold mb-0">
+      <i class="fas fa-user-shield text-warning me-2"></i>Admin Console
+    </h2>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('admin.admin_change_password') }}" class="btn btn-outline-light btn-sm">
+        <i class="fas fa-key me-1"></i>Change Password
+      </a>
+      <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger btn-sm">
+        <i class="fas fa-sign-out-alt me-1"></i>Logout
+      </a>
+    </div>
   </div>
 
-  <hr />
-
-  <div class="text-dark text-center">
-    <h2 class="text-primary fw-bold">Welcome Admin!</h2>
-    <a href="{{ url_for('admin.admin_change_password') }}" class="btn btn-outline-secondary mb-3">Change Password</a>
+  <!-- Welcome Banner -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4 text-center bg-white rounded">
+      <h3 class="text-primary fw-bold mb-2">Welcome Back, Administrator!</h3>
+      <p class="text-muted mb-0">Use the control cards below to monitor projects, approve users, inspect reports, and view customer requests.</p>
+    </div>
   </div>
 
-
-  <!-- Quick Access Cards -->
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <a href="{{ url_for('admin.admin_users') }}" class="text-decoration-none">
-        <div class="card text-white bg-primary text-center p-4 shadow">
-          <i class="fas fa-users fa-2x mb-2"></i>
-          <h5>Manage Users</h5>
+  <!-- Quick Access Cards Grid -->
+  <div class="row g-4">
+    <!-- Manage Users -->
+    <div class="col-md-6 col-lg-3">
+      <a href="{{ url_for('admin.admin_users') }}" class="text-decoration-none hover-card-grow d-block h-100">
+        <div class="card border-0 shadow-sm text-center p-4 h-100 bg-white" style="border-top: 4px solid var(--accent-teal) !important;">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <div class="rounded-circle bg-light p-3 mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+              <i class="fas fa-users fa-2x text-primary"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Manage Users</h5>
+            <p class="small text-muted mb-0">Approve registrations, inspect profiles, and delete inactive users.</p>
+          </div>
         </div>
       </a>
     </div>
 
-    <div class="col-md-6 mb-4">
-      <a href="{{ url_for('admin.admin_projects') }}" class="text-decoration-none">
-        <div class="card text-white bg-success text-center p-4 shadow">
-          <i class="fas fa-project-diagram fa-2x mb-2"></i>
-          <h5>Manage Projects</h5>
+    <!-- Manage Projects -->
+    <div class="col-md-6 col-lg-3">
+      <a href="{{ url_for('admin.admin_projects') }}" class="text-decoration-none hover-card-grow d-block h-100">
+        <div class="card border-0 shadow-sm text-center p-4 h-100 bg-white" style="border-top: 4px solid var(--accent-peach) !important;">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <div class="rounded-circle bg-light p-3 mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+              <i class="fas fa-project-diagram fa-2x text-primary"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Manage Projects</h5>
+            <p class="small text-muted mb-0">Create new workspaces, assign managers/users, and archive milestones.</p>
+          </div>
         </div>
       </a>
     </div>
 
-    <div class="col-md-6 mb-4">
-      <a href="{{ url_for('admin.admin_reports') }}" class="text-decoration-none">
-        <div class="card text-white bg-warning text-center p-4 shadow">
-          <i class="fas fa-file-alt fa-2x mb-2"></i>
-          <h5>View Reports</h5>
+    <!-- View Reports -->
+    <div class="col-md-6 col-lg-3">
+      <a href="{{ url_for('admin.admin_reports') }}" class="text-decoration-none hover-card-grow d-block h-100">
+        <div class="card border-0 shadow-sm text-center p-4 h-100 bg-white" style="border-top: 4px solid var(--secondary-color) !important;">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <div class="rounded-circle bg-light p-3 mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+              <i class="fas fa-file-alt fa-2x text-primary"></i>
+            </div>
+            <h5 class="fw-bold text-dark">View Reports</h5>
+            <p class="small text-muted mb-0">Access project progress documents and publish official PDF reports.</p>
+          </div>
         </div>
       </a>
     </div>
 
-    <div class="col-md-6 mb-4">
-      <a href="{{ url_for('admin.admin_contacts') }}" class="text-decoration-none">
-        <div class="card text-white bg-dark text-center p-4 shadow">
-          <i class="fas fa-envelope fa-2x mb-2"></i>
-          <h5>Contact Messages</h5>
+    <!-- Contact Messages -->
+    <div class="col-md-6 col-lg-3">
+      <a href="{{ url_for('admin.admin_contacts') }}" class="text-decoration-none hover-card-grow d-block h-100">
+        <div class="card border-0 shadow-sm text-center p-4 h-100 bg-white" style="border-top: 4px solid var(--neutral-sage) !important;">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <div class="rounded-circle bg-light p-3 mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+              <i class="fas fa-envelope fa-2x text-primary"></i>
+            </div>
+            <h5 class="fw-bold text-dark">Contact Inquiries</h5>
+            <p class="small text-muted mb-0">Read and address messages submitted via the public contact forms.</p>
+          </div>
         </div>
       </a>
     </div>
@@ -58,3 +90,4 @@
 </div>
 
 {% endblock %}
+

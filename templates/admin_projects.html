@@ -1,126 +1,276 @@
-{% extends "index.html" %} {% block content %}
+{% extends "index.html" %} 
+{% block content %}
 <div class="container-fluid mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Admin Panel - Projects 🎯</h2>
-    <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
-  </div>
-
-  <hr />
-
-  <!-- Add Project Section -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h3 class="card-title">Add New Project</h3>
-      <form method="POST" action="{{ url_for('admin.admin_add_project') }}">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Project Name:</label>
-            <input type="text" name="name" class="form-control" required />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Status:</label>
-            <select name="status" class="form-select" required>
-              <option value="active">Active</option>
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Start Date:</label>
-            <input
-              type="date"
-              name="start_date"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">End Date:</label>
-            <input type="date" name="end_date" class="form-control" required />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Budget:</label>
-            <input
-              type="number"
-              step="0.01"
-              name="budget"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Client ID:</label>
-            <input
-              type="number"
-              name="client_id"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Manager ID:</label>
-            <input
-              type="number"
-              name="manager_id"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Project Location:</label>
-            <input
-              type="text"
-              name="project_location"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="col-md-8">
-            <label class="form-label">Description:</label>
-            <textarea
-              name="description"
-              class="form-control"
-              required
-            ></textarea>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Assign to User:</label>
-            <select name="assigned_user_id" class="form-select" required>
-              <option value="">Select User</option>
-              {% for user in users %}
-              <option value="{{ user.id }}">
-                {{ user.username }} ({{ user.email }})
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-success mt-3">
-          <i class="fas fa-plus"></i> Add Project
-        </button>
-      </form>
+  <!-- Header -->
+  <div class="card-header d-flex justify-content-between align-items-center rounded shadow-sm mb-4 px-4 py-3 bg-primary text-white">
+    <h2 class="h3 fw-bold mb-0">
+      <i class="fas fa-project-diagram text-warning me-2"></i>Admin Panel - Projects
+    </h2>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-light btn-sm">
+        <i class="fas fa-arrow-left me-1"></i>Back to Home
+      </a>
+      <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger btn-sm">
+        <i class="fas fa-sign-out-alt me-1"></i>Logout
+      </a>
     </div>
   </div>
 
-  <!-- Archive Project Section -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h3 class="card-title">Archive Project</h3>
-      <form method="POST" action="{{ url_for('admin.admin_archive_project') }}">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Project ID:</label>
-            <input
-              type="number"
-              name="project_id"
-              class="form-control"
-              required
-            />
+  <div class="row">
+    <!-- Left Column: Operations -->
+    <div class="col-lg-8">
+      <!-- Add Project Section -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="h5 mb-0"><i class="fas fa-plus-circle text-warning me-2"></i>Add New Project</h4>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" action="{{ url_for('admin.admin_add_project') }}">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Project Name</label>
+                <input type="text" name="name" class="form-control" placeholder="e.g. Metro Line Extension" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select" required>
+                  <option value="active">Active</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="start_date" class="form-control" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">End Date</label>
+                <input type="date" name="end_date" class="form-control" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Budget (₹)</label>
+                <input type="number" step="0.01" name="budget" class="form-control" placeholder="Budget amount" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Client ID</label>
+                <input type="number" name="client_id" class="form-control" placeholder="ID" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Manager ID</label>
+                <input type="number" name="manager_id" class="form-control" placeholder="ID" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Project Location</label>
+                <input type="text" name="project_location" class="form-control" placeholder="e.g. Ahmedabad" required />
+              </div>
+              <div class="col-md-12">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3" placeholder="Enter brief project scope details..." required></textarea>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label">Assign to User</label>
+                <select name="assigned_user_id" class="form-select" required>
+                  <option value="">Select User Workspace</option>
+                  {% for user in users %}
+                  <option value="{{ user.id }}">
+                    {{ user.username }} ({{ user.email }})
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="mt-4 text-end">
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="fas fa-plus me-2"></i>Create Project Workspace
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Project Assignments (Reassignment) Accordion -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="h5 mb-0"><i class="fas fa-exchange-alt text-warning me-2"></i>Project Reassignment</h4>
+        </div>
+        <div class="card-body p-4">
+          <div class="accordion" id="projectAssignmentsAccordion">
+            {% for project in projects %}
+            {% set status = project.status|lower %}
+            <div class="accordion-item mb-2 border rounded overflow-hidden">
+              <h2 class="accordion-header" id="heading{{ project.id }}">
+                <button class="accordion-button collapsed py-3 px-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ project.id }}" aria-expanded="false" aria-controls="collapse{{ project.id }}">
+                  <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                    <span class="text-dark fw-bold">{{ project.name }}</span>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="small text-muted me-2 d-none d-sm-inline">
+                        Assigned: {{ project.user.username if project.user else "Unassigned" }}
+                      </span>
+                      {% if status == 'pending' %}
+                      <span class="badge bg-warning text-dark">Pending</span>
+                      {% elif status == 'completed' %}
+                      <span class="badge bg-success">Completed</span>
+                      {% elif status == 'archived' %}
+                      <span class="badge bg-secondary">Archived</span>
+                      {% elif status == 'active' %}
+                      <span class="badge bg-primary">Active</span>
+                      {% else %}
+                      <span class="badge bg-secondary">{{ status|capitalize }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </button>
+              </h2>
+              <div id="collapse{{ project.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ project.id }}" data-bs-parent="#projectAssignmentsAccordion">
+                <div class="accordion-body bg-light-50 p-4">
+                  {% if status != 'archived' %}
+                  <form action="{{ url_for('admin.admin_reassign_project') }}" method="POST">
+                    <input type="hidden" name="project_id" value="{{ project.id }}" />
+                    <div class="row align-items-end g-3">
+                      <div class="col-md-8">
+                        <label for="userSelect{{ project.id }}" class="form-label fw-bold small">Reassign Workspace Member:</label>
+                        <select name="new_user_email" class="form-select" id="userSelect{{ project.id }}" required>
+                          {% for user in users %}
+                            <option value="{{ user.email }}" {% if project.user and user.email == project.user.email %}selected{% endif %}>
+                              {{ user.username }} ({{ user.email }})
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                          <i class="fas fa-check-circle me-1"></i>Reassign
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  {% else %}
+                  <div class="text-muted fst-italic">
+                    <i class="fas fa-lock me-1"></i>This project has been archived. Reassignment is locked.
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% if not projects %}
+            <div class="text-center text-muted py-4">No projects registered.</div>
+            {% endif %}
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Archive Reason:</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Utilities & Archive manual form -->
+    <div class="col-lg-4">
+      <!-- Archive Project manual form -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="h5 mb-0"><i class="fas fa-archive text-warning me-2"></i>Quick Archive Console</h4>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" action="{{ url_for('admin.admin_archive_project') }}">
+            <div class="mb-3">
+              <label class="form-label">Project ID</label>
+              <input type="number" name="project_id" class="form-control" placeholder="Enter Project Numerical ID" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Archive Reason</label>
+              <select name="archive_reason" class="form-select" required>
+                <option value="completed">Project Completed</option>
+                <option value="canceled">Project Canceled</option>
+                <option value="onhold">Project On Hold</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Archive Notes</label>
+              <textarea name="archive_notes" class="form-control" rows="2" placeholder="Optional notes..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">
+              <i class="fas fa-archive me-1"></i>Archive Project
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects Gallery Section (Full Width Bottom) -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-primary text-white py-3">
+      <h4 class="h5 mb-0"><i class="fas fa-th text-warning me-2"></i>Existing Projects Gallery</h4>
+    </div>
+    <div class="card-body p-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for project in projects %}
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0 hover-card-grow">
+            <div class="card-header bg-primary text-white py-2 d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0 h6 text-truncate" style="max-width: 70%;">{{ project.name }}</h5>
+              <span class="badge bg-light text-primary small">ID: {{ project.id }}</span>
+            </div>
+            <div class="card-body py-3">
+              <p class="card-text mb-2">
+                <small class="text-muted d-block">Location</small>
+                <strong class="text-dark">{{ project.project_location or 'Ahmedabad' }}</strong>
+              </p>
+              <p class="card-text mb-2">
+                <small class="text-muted d-block">Timeline</small>
+                <strong class="text-dark">{{ project.start_date }} to {{ project.end_date }}</strong>
+              </p>
+              <p class="card-text mb-2">
+                <small class="text-muted d-block">Allocated Budget</small>
+                <strong class="text-success">₹{{ project.budget }}</strong>
+              </p>
+              <p class="card-text mb-2">
+                <small class="text-muted d-block">Status</small>
+                {% set proj_status = project.status|lower %}
+                <span class="badge bg-{{ 'success' if proj_status == 'active' else 'warning' if proj_status == 'pending' else 'secondary' }}">
+                  {{ project.status }}
+                </span>
+              </p>
+              <p class="card-text mb-0">
+                <small class="text-muted d-block">Assigned Representative</small>
+                <strong class="text-dark"><i class="fas fa-user-circle text-secondary me-1"></i>{{ project.user.username if project.user else "Unassigned" }}</strong>
+              </p>
+            </div>
+            <div class="card-footer bg-light border-0 d-flex justify-content-between align-items-center py-2">
+              {% if project.status != 'archived' %}
+              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#archiveProjectModal{{ project.id }}">
+                <i class="fas fa-archive me-1"></i>Archive
+              </button>
+              {% else %}
+              <span class="badge bg-secondary"><i class="fas fa-lock me-1"></i>Archived</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% if not projects %}
+        <div class="col-12 text-center text-muted py-4">No active or archived projects registered in system.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Templates for Archiving Projects -->
+{% for project in projects %}
+{% if project.status != 'archived' %}
+<div class="modal fade" id="archiveProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-archive me-2 text-warning"></i>Archive Project: {{ project.name }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{{ url_for('admin.admin_archive_project') }}">
+        <input type="hidden" name="project_id" value="{{ project.id }}">
+        <div class="modal-body">
+          <p class="text-muted mb-3">Please specify archival details for project record <strong>ID: {{ project.id }}</strong>.</p>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Archive Reason</label>
             <select name="archive_reason" class="form-select" required>
               <option value="completed">Project Completed</option>
               <option value="canceled">Project Canceled</option>
@@ -128,166 +278,31 @@
               <option value="other">Other</option>
             </select>
           </div>
-          <div class="col-md-12">
-            <label class="form-label">Archive Notes:</label>
-            <textarea
-              name="archive_notes"
-              class="form-control"
-              placeholder="Optional notes about why this project is being archived"
-            ></textarea>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Archive Notes</label>
+            <textarea name="archive_notes" class="form-control" rows="3" placeholder="Explain reasoning or current status of deliverables..."></textarea>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning mt-3">
-          <i class="fas fa-archive"></i> Archive Project
-        </button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle me-1"></i>Archive Project</button>
+        </div>
       </form>
     </div>
   </div>
-
-  <!-- Projects Assignments -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h3 class="card-title text-primary fw-bold">Project Assignments</h3>
-      <div class="accordion" id="projectAssignmentsAccordion">
-        {% for project in projects %}
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading{{ project.id }}">
-            <button
-              class="accordion-button collapsed d-flex justify-content-between"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapse{{ project.id }}"
-              aria-expanded="false"
-              aria-controls="collapse{{ project.id }}"
-            >
-              <div
-                class="d-flex flex-column flex-sm-row justify-content-between w-100"
-              >
-                <div>
-                  <strong>{{ project.name }}</strong> - {{ project.user.username
-                  if project.user else "Unassigned" }} ({{ project.user.email if
-                  project.user else "No email" }})
-                </div>
-                <div>
-                  {% set status = project.status|lower %} {% if status ==
-                  'pending' %}
-                  <span class="badge bg-warning text-dark">Pending</span>
-                  {% elif status == 'completed' %}
-                  <span class="badge bg-success">Completed</span>
-                  {% elif status == 'archived' %}
-                  <span class="badge bg-secondary">Archived</span>
-                  {% elif status == 'active' %}
-                  <span class="badge bg-primary">Active</span>
-                  {% else %}
-                  <span class="badge bg-info">Unknown</span>
-                  {% endif %}
-                </div>
-              </div>
-            </button>
-          </h2>
-          <div
-            id="collapse{{ project.id }}"
-            class="accordion-collapse collapse"
-            aria-labelledby="heading{{ project.id }}"
-            data-bs-parent="#projectAssignmentsAccordion"
-          >
-            <div class="accordion-body">
-              {% if status != 'archived' %}
-              <form
-                action="{{ url_for('admin.admin_reassign_project') }}"
-                method="POST"
-              >
-                <input
-                  type="hidden"
-                  name="project_id"
-                  value="{{ project.id }}"
-                />
-                <div class="input-group mb-3">
-                  <div class="mb-3">
-                    <label for="userSelect{{ project.id }}" class="form-label">Reassign to:</label>
-                    <select name="new_user_email" class="form-select" id="userSelect{{ project.id }}" required>
-                      {% for user in users %}
-                        <option value="{{ user.email }}" {% if project.user and user.email == project.user.email %}selected{% endif %}>
-                          {{ user.username }} ({{ user.email }})
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-                  <button type="submit" class="btn btn-primary">
-                    Reassign
-                  </button>
-                </div>
-              </form>
-              {% else %}
-              <div class="text-muted fst-italic">
-                This project has been archived. Reassignment is disabled.
-              </div>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
-  <!-- Projects Gallery View -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h3 class="card-title text-primary fw-bold">Existing Projects</h3>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for project in projects %}
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <div
-              class="card-header bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' if project.status == 'archived' else 'secondary' }}"
-            >
-              <h5 class="card-title mb-0">{{ project.name }}</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">
-                <strong>ID:</strong> {{ project.id }}<br />
-                <strong>Dates:</strong> {{ project.start_date }} to {{
-                project.end_date }}<br />
-                <strong>Budget:</strong> ₹{{ project.budget }}<br />
-                <strong>Status:</strong>
-                <span
-                  class="badge bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' if project.status == 'archived' else 'secondary' }}"
-                >
-                  {{ project.status }}</span
-                ><br />
-                <strong>Assigned:</strong> {{ project.user.username if
-                project.user else "Unassigned" }}
-              </p>
-            </div>
-            <div class="card-footer bg-transparent">
-              {% if project.status != 'archived' %}
-              <button
-                class="btn btn-sm btn-outline-warning"
-                data-bs-toggle="modal"
-                data-bs-target="#archiveProjectModal{{ project.id }}"
-              >
-                <i class="fas fa-archive"></i> Archive
-              </button>
-              {% else %}
-              <span class="badge bg-secondary">Archived</span>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
 </div>
+{% endif %}
+{% endfor %}
 
 <style>
   .accordion-button:not(.collapsed) {
-    background-color: rgba(13, 110, 253, 0.1);
+    background-color: rgba(43, 62, 107, 0.08) !important;
+    color: var(--primary-color) !important;
+    box-shadow: none !important;
   }
-  .card-header h5 {
-    font-size: 1.1rem;
+  .accordion-button:focus {
+    box-shadow: none !important;
   }
 </style>
 {% endblock %}
+

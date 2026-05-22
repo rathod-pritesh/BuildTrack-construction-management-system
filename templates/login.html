@@ -2,31 +2,45 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="auth-form bg-white p-4 rounded shadow">
-  <h2 class="mb-4 text-center">Login</h2>
-  <form action="{{ url_for('login') }}" method="POST">
-    
-    <div class="mb-3">
-      <label for="loginEmail" class="form-label">Email</label>
-      <input type="email" class="form-control" name="email" required>
-    </div>
-
-    <div class="mb-3 position-relative">
-      <label for="loginPassword" class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" required>
-      <i class="fas fa-eye-slash toggle-password"></i>
-    </div>
-
-    <div class="d-flex justify-content-start mb-3">
-      <a href="{{ url_for('forgot_password') }}" class="forgot-password-link">Forgot Password?</a>
-    </div>
-
-    <div class="text-center mt-3">
-      <button type="submit" class="btn btn-primary px-5"><i class="fas fa-sign-in-alt"></i>Login</button>
+  <div class="auth-form col-12 col-sm-10 col-md-8 col-lg-5 p-4 rounded shadow border">
+    <div class="text-center mb-4">
+      <i class="fas fa-hard-hat text-warning fa-3x mb-2"></i>
+      <h2 class="fw-bold text-primary">System Login</h2>
+      <p class="text-muted">Enter credentials to log in to BuildTrack</p>
     </div>
     
-  </form>
-  <p class="mt-3 text-center">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
-</div>
+    <form action="{{ url_for('login') }}" method="POST">
+      <div class="mb-3 position-relative">
+        <label for="loginEmail" class="form-label">Email Address</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control border-start-0" id="loginEmail" name="email" placeholder="name@company.com" required>
+        </div>
+      </div>
+
+      <div class="mb-3 position-relative">
+        <label for="loginPassword" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-lock"></i></span>
+          <input type="password" class="form-control border-start-0 border-end-0" id="loginPassword" name="password" placeholder="••••••••" required>
+          <span class="input-group-text bg-white border-start-0"><i class="fas fa-eye-slash toggle-password"></i></span>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{{ url_for('forgot_password') }}" class="text-decoration-none text-secondary hover-underline">
+          <i class="fas fa-key me-1"></i>Forgot Password?
+        </a>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary w-100 py-2"><i class="fas fa-sign-in-alt me-2"></i>Access Workspace</button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4 pt-3 border-top">
+      <p class="mb-0 text-muted">Don't have an account? <a href="{{ url_for('register') }}" class="text-primary fw-bold text-decoration-none">Register here</a></p>
+    </div>
+  </div>
 </div>
 {% endblock %}

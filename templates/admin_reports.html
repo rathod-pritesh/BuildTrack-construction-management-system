@@ -2,91 +2,117 @@
 
 {% block content %}
 <div class="container-fluid mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Admin Panel - Reports 📝</h2>
-    <div>
-      <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reportsUploadModal">
-        <i class="fas fa-file-upload"></i> Upload Report
+  <!-- Header -->
+  <div class="card-header d-flex justify-content-between align-items-center rounded shadow-sm mb-4 px-4 py-3 bg-primary text-white">
+    <h2 class="h3 fw-bold mb-0">
+      <i class="fas fa-file-invoice text-warning me-2"></i>Admin Panel - Reports
+    </h2>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#reportsUploadModal">
+        <i class="fas fa-file-upload me-1"></i>Publish Report
       </button>
-      <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
-        <i class="fas fa-sign-out-alt"></i> Logout
+      <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-light btn-sm">
+        <i class="fas fa-arrow-left me-1"></i>Back to Home
+      </a>
+      <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger btn-sm">
+        <i class="fas fa-sign-out-alt me-1"></i>Logout
       </a>
     </div>
   </div>
 
-  <hr />
+  <div class="row">
+    <!-- Admin Uploaded Reports -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="h5 mb-0"><i class="fas fa-bullhorn text-warning me-2"></i>Published Admin Reports</h4>
+        </div>
+        <div class="card-body p-4">
+          <ul class="list-group shadow-sm">
+            {% for report in reports %}
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4 bg-white border">
+                <div class="d-flex flex-column text-truncate" style="max-width: 80%;">
+                  <a href="{{ url_for('static', filename='uploads/reports/' + report.original_filename) }}" target="_blank" class="fw-bold text-primary text-decoration-none text-truncate hover-underline">
+                    <i class="fas fa-file-pdf text-danger me-2"></i>{{ report.title }}
+                  </a>
+                  <span class="small text-muted mt-1"><i class="fas fa-calendar-alt me-1"></i>Published: {{ report.upload_date.strftime('%Y-%m-%d') }}</span>
+                </div>
+                <form method="POST" action="{{ url_for('admin.delete_report') }}" onsubmit="return confirm('Are you sure you want to permanently delete this report?')">
+                  <input type="hidden" name="report_id" value="{{ report.id }}">
+                  <button type="submit" class="btn btn-sm btn-link text-danger p-0 border-0 ms-2">
+                    <i class="fas fa-trash-alt fa-lg"></i>
+                  </button>
+                </form>
+              </li>
+            {% else %}
+              <li class="list-group-item text-muted text-center py-4 bg-light-50">
+                <i class="fas fa-file-excel fa-2x mb-2 text-secondary"></i>
+                <p class="mb-0">No administrator reports published yet.</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
 
-  <div class="container-fluid mt-4">
-    <!-- Admin Uploaded Reports Section -->
-    <h4 class="mt-4 text-primary fw-bold">Admin Uploaded Reports</h4>
-    <ul class="list-group mb-4">
-      {% for report in reports %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <a href="{{ url_for('static', filename='uploads/reports/' + report.original_filename) }}" target="_blank">
-            {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
-          </a>
-          <form method="POST" action="{{ url_for('admin.delete_report') }}" style="display:inline;">
-            <input type="hidden" name="report_id" value="{{ report.id }}">
-            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </form>
-        </li>
-      {% endfor %}
-      {% if not reports %}
-        <li class="list-group-item text-danger">No reports uploaded yet.</li>
-      {% endif %}
-    </ul>
-  
-           <!-- Member Uploaded Reports Section -->
-           <h4 class="mt-4 text-primary fw-bold">Member Uploaded Reports</h4>
-           <ul class="list-group mb-4">
-             {% for report in member_reports %}
-               <li class="list-group-item d-flex justify-content-between align-items-center">
-                 <div>
-                   <a href="{{ url_for('static', filename='uploads/reports/member_reports/' + report.original_filename) }}" target="_blank">
-                     {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
-                   </a>
-                 </div>
-               </li>
-             {% endfor %}
-             {% if not member_reports %}
-               <li class="list-group-item text-danger">No member reports uploaded yet.</li>
-             {% endif %}
-           </ul>
-  </div>
-  
+    <!-- Member Uploaded Reports -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="h5 mb-0"><i class="fas fa-clipboard-list text-warning me-2"></i>Received Member Submissions</h4>
+        </div>
+        <div class="card-body p-4">
+          <ul class="list-group shadow-sm">
+            {% for report in member_reports %}
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-4 bg-white border">
+                <div class="d-flex flex-column text-truncate" style="max-width: 90%;">
+                  <a href="{{ url_for('static', filename='uploads/reports/member_reports/' + report.original_filename) }}" target="_blank" class="fw-bold text-dark text-decoration-none text-truncate hover-underline">
+                    <i class="fas fa-file-alt text-secondary me-2"></i>{{ report.title }}
+                  </a>
+                  <span class="small text-muted mt-1"><i class="fas fa-calendar-day me-1"></i>Submitted: {{ report.upload_date.strftime('%Y-%m-%d') }}</span>
+                </div>
+              </li>
+            {% else %}
+              <li class="list-group-item text-muted text-center py-4 bg-light-50">
+                <i class="fas fa-folder-open fa-2x mb-2 text-secondary"></i>
+                <p class="mb-0">No daily progress logs received from team members.</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  
-
-<!-- Reports Upload Modal -->
+<!-- Publish Report Modal -->
 <div class="modal fade" id="reportsUploadModal" tabindex="-1" aria-labelledby="reportsUploadModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="reportsUploadModalLabel">Upload Reports</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportsUploadModalLabel">
+          <i class="fas fa-cloud-upload-alt text-warning me-2"></i>Publish Administrative Report
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="{{ url_for('admin.upload_report') }}" method="post" enctype="multipart/form-data">
           <div class="mb-3">
-            <label for="reportFile" class="form-label">Select Report File (PDF only, max 10MB)</label>
+            <label for="reportFile" class="form-label fw-bold">Select Report File (PDF only, max 10MB)</label>
             <input class="form-control" type="file" id="reportFile" name="report_file" accept=".pdf" required />
-            <div class="form-text">Only PDF files are accepted. Maximum file size: 10MB.</div>
+            <div class="form-text text-muted">Only PDF files are approved. Maximum file size is 10MB.</div>
           </div>
           <div class="mb-3">
-            <label for="reportTitle" class="form-label">Report Title</label>
-            <input type="text" class="form-control" id="reportTitle" name="report_title" required />
+            <label for="reportTitle" class="form-label fw-bold">Report Title</label>
+            <input type="text" class="form-control" id="reportTitle" name="report_title" placeholder="e.g. Monthly Progress Report" required />
           </div>
-          <div class="mb-3">
-            <label for="reportDescription" class="form-label">Description (Optional)</label>
-            <textarea class="form-control" id="reportDescription" name="report_description" rows="3"></textarea>
+          <div class="mb-4">
+            <label for="reportDescription" class="form-label fw-bold">Description / Executive Summary (Optional)</label>
+            <textarea class="form-control" id="reportDescription" name="report_description" rows="3" placeholder="Key updates or critical notes..."></textarea>
           </div>
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-upload me-2"></i>Upload Report
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-upload me-2"></i>Publish Report
             </button>
           </div>
         </form>
@@ -96,7 +122,6 @@
 </div>
 
 <script>
-  // For reports
   document.addEventListener("DOMContentLoaded", function() {
     const fileInput = document.getElementById("reportFile");
     if (fileInput) {
@@ -120,4 +145,4 @@
     }
   });
 </script>
-{% endblock %}
+{% endblock %}

@@ -2,73 +2,101 @@
 
 {% block content %}
 <div class="container py-5 px-3">
-    <div class="row">
-        <div class="col-lg-6 mb-5 mb-lg-0">
-            <h1 class="display-4 fw-bold mb-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Contact Us</h1>
-            <p class="lead">We'd love to hear from you!</p>
-            <hr class="my-4">
+    <div class="row g-4">
+        <!-- Contact Form Card -->
+        <div class="col-lg-7">
+            <div class="text-start mb-4">
+                <h1 class="display-5 fw-bold text-primary mb-2">Contact Us</h1>
+                <p class="lead text-muted">We would love to hear from you! Send us a message and we'll reply shortly.</p>
+                <div style="height: 3px; width: 65px; background-color: var(--accent-peach); border-radius: 2px;"></div>
+            </div>
             
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
                     <form method="POST" action="{{ url_for('submit_contact')}}">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Your Name</label>
-                            <input type="text" name="name" class="form-control" id="name" required>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Your Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-user"></i></span>
+                                    <input type="text" name="name" class="form-control border-start-0" id="name" placeholder="John Doe" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" name="email" class="form-control border-start-0" id="email" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label">Subject Topic</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-tags"></i></span>
+                                    <select class="form-select border-start-0" id="subject" name="subject">
+                                        <option selected>General Inquiry</option>
+                                        <option>Feedback</option>
+                                        <option>Partnership/Client Request</option>
+                                        <option>Technical Issue</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label">Message Details</label>
+                                <textarea class="form-control" name="message" id="message" rows="5" placeholder="Write your comments or questions here..." required></textarea>
+                            </div>
+                            <div class="col-12 mt-4 text-end">
+                                <button type="submit" class="btn btn-primary px-4 py-2">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" id="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Subject</label>
-                            <select class="form-select" id="subject" name="subject">
-                                <option selected>General Inquiry</option>
-                                <option>Feedback</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" name="message" id="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
                     </form>
                 </div>
             </div>
         </div>
         
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h2 class="mb-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Our Information</h2>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-map-marker-alt fa-2x"></i>
+        <!-- Contact Info Cards -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100 bg-primary text-white">
+                <div class="card-body p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <h2 class="fw-bold mb-4 text-warning"><i class="fas fa-building me-2"></i>Our Information</h2>
+                        <p class="text-light-50 mb-5" style="line-height: 1.6;">Feel free to drop by our main office in Ahmedabad, or connect with our support desk via phone or email during standard business hours.</p>
+                        
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="me-3 p-2 bg-white bg-opacity-10 rounded">
+                                <i class="fas fa-map-marker-alt text-warning fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="h5 mb-1 text-white">Head Office Address</h4>
+                                <p class="mb-0 text-light-50" style="font-size: 0.95rem;">122, BuildTrack, Thaltej, Ahmedabad, Gujarat</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Office</h4>
-                            <p class="mb-0">122, BuildTrack<br>Thaltej, Ahmedabad</p>
+                        
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="me-3 p-2 bg-white bg-opacity-10 rounded">
+                                <i class="fas fa-phone-alt text-warning fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="h5 mb-1 text-white">Phone Support Line</h4>
+                                <p class="mb-0 text-light-50" style="font-size: 0.95rem;">+91 12345 67895<br><small>Mon-Fri, 9am - 5pm IST</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-start">
+                            <div class="me-3 p-2 bg-white bg-opacity-10 rounded">
+                                <i class="fas fa-envelope text-warning fa-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="h5 mb-1 text-white">Email Desk</h4>
+                                <p class="mb-0 text-light-50" style="font-size: 0.95rem;">buildtrack2022@gmail.com</p>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-phone-alt fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>Phone</h4>
-                            <p class="mb-0">+91 12345 67895<br>Mon-Fri, 9am-5pm</p>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex mb-4">
-                        <div class="me-3 text-primary">
-                            <i class="fas fa-envelope fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4>Email</h4>
-                            <p class="mb-0">buildtrack2022@gmail.com</p>
-                        </div>
+
+                    <div class="border-top border-light border-opacity-10 pt-4 mt-5">
+                        <small class="text-light-50 d-block text-center">Bhagwati Infrastructure &bull; BuildTrack</small>
                     </div>
                 </div>
             </div>

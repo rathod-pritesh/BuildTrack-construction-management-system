@@ -10,6 +10,7 @@ import time as time_module
 import random
 import smtplib
 import uuid
+from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from email.message import EmailMessage
 from email.mime.text import MIMEText
@@ -18,14 +19,15 @@ from models import db, User,PendingUser, Project, Attendance, Archive, Report, M
 # Import the admin blueprint
 from admin_panel import admin_bp
 
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
     baseDir = os.path.abspath(os.path.dirname(__file__))
-    app.secret_key = "secret_key"
+    app.secret_key = os.getenv("SECRET_KEY")
     
     # Config SQL Alchemy
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Pritesh%400712@localhost/buildtrack"
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads', 'reports')
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -61,12 +63,52 @@ def create_app():
     return app
 
 
-app = create_app()
-
 camera =None
 face_encodings =[]
 face_names = []
 
+def load_face_encodings():
+    global face_encodings, face_names
+
+    path ='static/faces'
+    images =[]
+    classNames =[]
+
+    if not os.path.exists(path):
+        os.makedirs(path)
+        return [],[]
+    
+    for file in os.listdir(path):
+
+        img_path = os.path.join(path, file)
+
+        # read img
+        img = cv2.imread(img_path)
+
+        if img is None:
+            print(f"Skipping invalid image: {file}")
+            continue
+
+        try:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+            encodings = face_recognition.face_encodings(img)
+
+            if len(encodings) == 0:
+                print(f"No face found in {file}")
+                continue
+
+            face_encodings.append(encodings[0])
+            face_names.append(os.path.splitext(file)[0])
+
+        except Exception as e:
+            print(f"Error processing {file}: {e}")
+
+    print(f"Loaded {len(face_encodings)} face encodings")
+
+    return face_encodings, face_names
+
+app = create_app()
 
 # Login required decorator
 def login_required(f):
@@ -77,37 +119,6 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
-
-def load_face_encodings():
-    global face_encodings, face_names
-    path ='static/faces'
-    images =[]
-    classNames =[]
-
-    if not os.path.exists(path):
-        os.makedirs(path)
-        return [],[]
-
-    myList = os.listdir(path)
-
-    for cl in myList:
-        curImg = cv2.imread(f'{path}/{cl}')
-        if curImg is not None:
-            images.append(curImg)
-            name = os.path.splitext(cl)[0]
-            classNames.append(name)
-
-    face_encodings =[]
-    for img in images:
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        try:
-            encode = face_recognition.face_encodings(img)[0]
-            face_encodings.append(encode)
-        except IndexError:
-            continue
-
-    face_names =classNames
-    return face_encodings, face_names
 
 def mark_attendance_record(username, attendance_type):
     current_date = datetime.now().date()
@@ -144,7 +155,7 @@ def mark_attendance_record(username, attendance_type):
             return f"{username}, please check in first."
 
         if record.check_out_time:
-            return f"{username}, you have already checked out today at {reocrd.check_out_time.strftime('%H:%M:%S')}"
+            return f"{username}, you have already checked out today at {record.check_out_time.strftime('%H:%M:%S')}"
 
         record.check_out_time = current_time
         check_in_datetime = datetime.combine(current_date, record.check_in_time)
@@ -166,50 +177,81 @@ def generate_frames(attendance_type=None):
 
     if camera and camera.isOpened():
         camera.release()
+
     camera = cv2.VideoCapture(0)
 
     if not face_encodings:
-        face_encodings, face_names = load_face_encodings()
+        load_face_encodings()
 
-    frame_count = 0
     detected_name = None
 
     while True:
+
         success, frame = camera.read()
+
         if not success:
             break
         
-        frame_count += 1
+        # resize frame for faster processing
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+
         face_locations = face_recognition.face_locations(rgb_small_frame)
         current_face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations) 
         
-        for face_encoding in current_face_encodings:
+        for (top, right, bottom, left), face_encoding in zip(
+            face_locations, current_face_encodings
+        ):
             matches = face_recognition.compare_faces(face_encodings, face_encoding)
+            face_distances = face_recognition.face_distance(face_encodings,face_encoding)
+
             name = "Unknown"
 
-            if True in matches:
-                face_distances = face_recognition.face_distance(face_encodings, face_encoding)
+            if len(face_distances) > 0:
                 best_match_index = np.argmin(face_distances)
+
                 if matches[best_match_index]:
                     name = face_names[best_match_index]
 
-                    if name!= "Unknown":
-                        detected_name = name
-                        # Draw a rectangle around the face with the name
-                        y1, x2, y2, x1 = face_locations[0]
-                        y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4  # Scale back up
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                        cv2.putText(frame, name, (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            # scale back face location
+            top *= 4
+            right *= 4
+            bottom *= 4
+            left *= 4
 
-        ret, buffer = cv2.imencode('.jpg', frame)
+            # draw rectangle
+            color = (0, 255, 0) if name != "Unknown" else (0, 0, 255)
+
+            cv2.rectangle(frame, (left, top), (right, bottom), color, 2)
+            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), color, cv2.FILLED)
+
+            cv2.putText(
+                frame,
+                name,
+                (left+6, bottom - 6),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (255, 255, 255),
+                2
+            )
+
+            if name != "Unknown":
+                detected_name = name
+
+        # Encode frame for Flask streaming
+        ret, buffer = cv2.imencode(".jpg", frame)
         frame = buffer.tobytes()
-        yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame +b'\r\n')
+
+        yield(
+            b"--frame\r\n"
+            b"Content-Type: image/jpeg\r\n\r\n" + frame + "b\r\n"
+        )
 
         if detected_name:
-            app.config['DETECTED_NAME'] = detected_name
-            app.config['ATTENDANCE_TYPE'] = attendance_type
+
+            app.config["DETECTED_NAME"] = detected_name
+            app.config["ATTENDANCE_TYPE"] = attendance_type
+
             time_module.sleep(2)
             break
 
@@ -752,5 +794,8 @@ def close_camera():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+
+        face_encodings, face_names = load_face_encodings()
+
         print("✅ Database tables created successfully!")
     app.run(debug=True)

@@ -1,50 +1,81 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>Add New Project</h2>
-  <form method="POST" action="{{ url_for('add_project') }}">
-    <div class="form-group">
-      <label>Project Name:</label>
-      <input type="text" name="name" class="form-control" required>
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+  <div class="auth-form col-12 col-md-10 col-lg-8 p-4 rounded shadow border bg-white">
+    <div class="text-center mb-4">
+      <i class="fas fa-plus-circle text-warning fa-3x mb-2"></i>
+      <h2 class="fw-bold text-primary">Create New Project</h2>
+      <p class="text-muted">Register a new construction workspace workspace in the database</p>
     </div>
-    <div class="form-group">
-      <label>Start Date:</label>
-      <input type="date" name="start_date" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>End Date:</label>
-      <input type="date" name="end_date" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>Client ID:</label>
-      <input type="number" name="client_id" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>Manager ID:</label>
-      <input type="number" name="manager_id" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>Budget:</label>
-      <input type="number" step="0.01" name="budget" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>Project Location:</label>
-      <input type="text" name="project_location" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label>Description:</label>
-      <textarea name="description" class="form-control" required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Status:</label>
-      <select name="status" class="form-control" required>
-        <option value="active">Active</option>
-        <option value="pending">Pending</option>
-        <option value="completed">Completed</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Add Project</button>
-  </form>
+
+    <form method="POST" action="{{ url_for('add_project') }}">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Project Name</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-signature"></i></span>
+            <input type="text" name="name" class="form-control border-start-0" placeholder="e.g. Ahmedabad Airport Terminal 3" required>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Status</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-info-circle"></i></span>
+            <select name="status" class="form-select border-start-0" required>
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Start Date</label>
+          <input type="date" name="start_date" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">End Date</label>
+          <input type="date" name="end_date" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Client ID</label>
+          <input type="number" name="client_id" class="form-control" placeholder="ID" required>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Manager ID</label>
+          <input type="number" name="manager_id" class="form-control" placeholder="ID" required>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Budget (₹)</label>
+          <input type="number" step="0.01" name="budget" class="form-control" placeholder="Budget amount" required>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label">Project Location</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-map-marker-alt"></i></span>
+            <input type="text" name="project_location" class="form-control border-start-0" placeholder="e.g. Ahmedabad, Gujarat" required>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-control" rows="3" placeholder="Enter workspace requirements, timeline objectives, or architectural details..." required></textarea>
+        </div>
+      </div>
+
+      <div class="text-end mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary me-2 px-4">Cancel</a>
+        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-plus me-2"></i>Create Project</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
+

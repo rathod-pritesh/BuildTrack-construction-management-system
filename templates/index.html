@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BuildTrack</title>
+    <title>BuildTrack - Construction Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -36,26 +36,30 @@
       {% endwith %}
     </div>
 
-    <div class="container mt-4 pt-4">
+    <div class="container mt-4 pt-2">
       {% block content %}
       <div class="hero-section">
         <div class="home-content">
-          <h1 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Welcome to BuildTrack</h1>
+          <h1 class="text-primary fw-bold">Welcome to BuildTrack</h1>
           <p class="lead">The most comprehensive construction project management solution for Bhagwati Infrastructure.</p>
-          <hr class="my-4">
-          <p>Start managing your projects efficiently today with our all-in-one platform that streamlines workflow, reduces costs, and improves communication.</p>
+          <hr class="my-3">
+          <p class="mb-4">Start managing your projects efficiently today with our all-in-one platform that streamlines workflow, reduces costs, and improves communication.</p>
           {% if session.get('user_id') %}
-            <a class="btn btn-primary btn-lg" href="{{ url_for('dashboard') }}" role="button">Go to Dashboard</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('dashboard') }}" role="button">
+              <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+            </a>
           {% else %}
-            <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Get Started</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">
+              <i class="fas fa-user-plus me-2"></i>Get Started
+            </a>
           {% endif %}
         </div>
       </div>
 
       <div class="row mt-5 mb-4">
         <div class="col-12 text-center">
-          <h2 class="section-heading text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Why Choose BuildTrack?</h2>
-          <p class="section-subheading">Comprehensive solutions for construction management needs</p>
+          <h2 class="section-heading text-primary fw-bold">Why Choose BuildTrack?</h2>
+          <p class="section-subheading text-muted">Comprehensive solutions for your construction management needs</p>
         </div>
       </div>
 
@@ -63,27 +67,33 @@
         <div class="col-md-4 mb-4">
           <div class="card h-100 feature-card">
             <div class="card-body text-center">
-              <i class="fas fa-project-diagram fa-3x mb-3 text-primary"></i>
-              <h4 class="card-title">Project Management</h4>
-              <p class="card-text">Real-time project tracking, milestone management, and automated reporting to keep everyone in the loop.</p>
+              <div class="mb-3">
+                <i class="fas fa-project-diagram fa-3x text-primary"></i>
+              </div>
+              <h4>Project Management</h4>
+              <p class="text-muted card-text">Real-time project tracking, milestone management, and automated reporting to keep everyone in the loop.</p>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-4">
           <div class="card h-100 feature-card">
             <div class="card-body text-center">
-              <i class="fas fa-calculator fa-3x mb-3 text-primary"></i>
-              <h4 class="card-title">Cost Estimation</h4>
-              <p class="card-text">Accurate cost calculation tools to estimate materials, labor, and overall project expenses.</p>
+              <div class="mb-3">
+                <i class="fas fa-calculator fa-3x text-primary"></i>
+              </div>
+              <h4>Cost Estimation</h4>
+              <p class="text-muted card-text">Accurate cost calculation tools to estimate materials, labor, and overall project expenses.</p>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-4">
           <div class="card h-100 feature-card">
             <div class="card-body text-center">
-              <i class="fas fa-users fa-3x mb-3 text-primary"></i>
-              <h4 class="card-title">Team Management</h4>
-              <p class="card-text">Efficient workforce management with online attendance tracking and role-based access control.</p>
+              <div class="mb-3">
+                <i class="fas fa-users fa-3x text-primary"></i>
+              </div>
+              <h4>Team Management</h4>
+              <p class="text-muted card-text">Efficient workforce management with online attendance tracking and role-based access control.</p>
             </div>
           </div>
         </div>
@@ -92,9 +102,11 @@
       <div class="row mb-5">
         <div class="col-md-6 mb-4">
           <div class="card h-100">
-            <div class="card-body">
-              <h3 class="card-title text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">For Project Managers</h3>
-              <ul class="feature-list">
+            <div class="card-header">
+              <h3 class="card-title h5 text-white mb-0">For Project Managers</h3>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <ul class="feature-list mb-4">
                 <li>Real-time project tracking and reporting</li>
                 <li>Resource allocation and management</li>
                 <li>Budget monitoring and financial reports</li>
@@ -102,18 +114,20 @@
                 <li>Document management system</li>
               </ul>
               {% if session.get('user_id') %}
-                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View Dashboard</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary align-self-start">View Dashboard</a>
               {% else %}
-                <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Learn More</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary align-self-start">Learn More</a>
               {% endif %}
             </div>
           </div>
         </div>
         <div class="col-md-6 mb-4">
           <div class="card h-100">
-            <div class="card-body">
-              <h3 class="card-title text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">For Clients</h3>
-              <ul class="feature-list">
+            <div class="card-header">
+              <h3 class="card-title h5 text-white mb-0">For Clients</h3>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <ul class="feature-list mb-4">
                 <li>Transparent project progress tracking</li>
                 <li>Regular automated reports</li>
                 <li>Easy communication with project team</li>
@@ -121,26 +135,26 @@
                 <li>Budget and timeline visibility</li>
               </ul>
               {% if session.get('user_id') %}
-                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">View Dashboard</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary align-self-start">View Dashboard</a>
               {% else %}
-                <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Learn More</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary align-self-start">Learn More</a>
               {% endif %}
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row cta-section py-5 my-5 rounded">
+      <div class="row cta-section py-5 my-5 rounded align-items-center">
         <div class="col-md-8 offset-md-2 text-center">
-          <h2 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Ready to Streamline Your Construction Projects?</h2>
-          <p class="lead">Join BuildTrack in revolutionizing construction management with BuildTrack.</p>
-          <div class="mt-4">
+          <h2>Ready to Streamline Your Construction Projects?</h2>
+          <p class="lead mb-4">Join BuildTrack in revolutionizing construction management with BuildTrack.</p>
+          <div class="d-flex justify-content-center gap-3">
             {% if session.get('user_id') %}
-              <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg mx-2">Go to Dashboard</a>
-              <a href="{{ url_for('projects') }}" class="btn btn-outline-secondary btn-lg mx-2">View Projects</a>
+              <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard</a>
+              <a href="{{ url_for('projects') }}" class="btn btn-outline-secondary btn-lg"><i class="fas fa-tasks me-2"></i>View Projects</a>
             {% else %}
-              <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg mx-2">Sign Up Now</a>
-              <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg mx-2">Log In</a>
+              <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg"><i class="fas fa-user-plus me-2"></i>Sign Up Now</a>
+              <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg"><i class="fas fa-sign-in-alt me-2"></i>Log In</a>
             {% endif %}
           </div>
         </div>
@@ -153,6 +167,6 @@
     {% include 'footer.html' %}
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <script src={{ url_for('static', filename='js/chatbot.js') }}></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
   </body>
 </html>

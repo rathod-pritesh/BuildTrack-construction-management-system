@@ -1,132 +1,139 @@
 {% extends "index.html" %}
 
 {% block content %}
-
 <div class="container py-5">
-    <div class="row align-items-center">
+    <!-- Header Hero -->
+    <div class="row align-items-center mb-5">
         <div class="col-lg-6 mb-4 mb-lg-0">
-            <h1 class="display-4 fw-bold mb-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">About BuildTrack</h1>
-            <p class="lead text-muted">Revolutionizing construction project management since 2022</p>
-            <hr class="my-4">
-            <p>BuildTrack is a comprehensive construction management platform designed to streamline project workflows, enhance team collaboration, and deliver projects on time and within budget.</p>
+            <h1 class="display-4 fw-bold mb-3 text-primary">About BuildTrack</h1>
+            <p class="lead text-muted">Revolutionizing construction project management for Bhagwati Infrastructure since 2022</p>
+            <hr class="my-4" style="border-top: 2px solid var(--accent-peach); width: 60px;">
+            <p class="text-dark" style="line-height: 1.6;">BuildTrack is a comprehensive construction management platform designed to streamline project workflows, enhance team collaboration, and deliver projects on time and within budget.</p>
             
-            <div class="mt-5">
-                <div class="d-flex mb-4">
-                    <div class="me-4 text-primary">
-                        <i class="fas fa-bullseye fa-2x"></i>
+            <div class="mt-4">
+                <div class="d-flex mb-3">
+                    <div class="me-3 text-primary">
+                        <i class="fas fa-bullseye fa-lg"></i>
                     </div>
                     <div>
-                        <h3>Our Mission</h3>
-                        <p>To empower construction professionals with intuitive tools that simplify complex processes and drive project success.</p>
+                        <h3 class="h5 text-primary fw-bold mb-1">Our Mission</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.95rem;">To empower construction professionals with intuitive tools that simplify complex processes and drive project success.</p>
                     </div>
                 </div>
                 
-                <div class="d-flex mb-4">
-                    <div class="me-4 text-primary">
-                        <i class="fas fa-eye fa-2x"></i>
+                <div class="d-flex">
+                    <div class="me-3 text-primary">
+                        <i class="fas fa-eye fa-lg"></i>
                     </div>
                     <div>
-                        <h3>Our Vision</h3>
-                        <p>To become the global standard in construction project management technology.</p>
+                        <h3 class="h5 text-primary fw-bold mb-1">Our Vision</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.95rem;">To become the global standard in construction project management technology.</p>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="col-lg-6">
-            <img src="{{ url_for('static', filename='images/construction_team.jpg') }}" 
-                 alt="Construction team working" 
-                 class="img-fluid rounded shadow-lg">
-        </div>
-    </div>
-
-    <div style="max-width: 900px; margin: 50px auto; padding: 20px;">
-        <h1 style="text-align: center; margin-bottom: 30px;" class="text-primary fw-bold">Meet Our Interior Designer</h1>
-        <div style="
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        ">
-            <div style="flex: 1 1 300px; min-width: 280px;">
-                <img src="{{ url_for('static', filename='images/designer.jpeg') }}" alt="Interior Designer" style="
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    display: block;
-                ">
-            </div>
-            <div style="flex: 2 1 400px; padding: 20px; min-width: 280px;">
-                <h2 style="margin-top: 0; color: #333;" class="text-primary fw-bold">Naman Sharma</h2>
-                <p style="color: #555; line-height: 1.6;">
-                    Naman is a professional interior designer with 10+ years of experience creating modern, functional, and beautiful spaces. He specializes in residential and commercial interiors.
-                </p>
-                <p><strong class="text-primary fw-bold">Email:</strong> naman.sharma@gmail.com</p>
-                <p><strong class="text-primary fw-bold">Phone:</strong> +91 98765 15648</p>
+            <div class="position-relative p-2 bg-white rounded border shadow-sm">
+                <img src="{{ url_for('static', filename='images/construction_team.jpg') }}" 
+                     alt="Construction team working" 
+                     class="img-fluid rounded">
             </div>
         </div>
     </div>
-    
-    
 
-    <div class="row mt-5">
-        <div class="col-12">
-            <h2 class="text-center mb-5 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Why Choose BuildTrack?</h2>
+    <!-- Interior Designer Section -->
+    <div class="my-5 py-4">
+        <h2 class="text-center fw-bold text-primary mb-4">Meet Our Interior Designer</h2>
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="row g-0 flex-column flex-md-row">
+                <div class="col-md-4 position-relative" style="min-height: 250px;">
+                    <img src="{{ url_for('static', filename='images/designer.jpeg') }}" 
+                         alt="Interior Designer Naman Sharma" 
+                         class="position-absolute w-100 h-100 object-fit-cover">
+                </div>
+                <div class="col-md-8 bg-white">
+                    <div class="card-body p-4 d-flex flex-column justify-content-center h-100">
+                        <h3 class="fw-bold text-primary mb-2">Naman Sharma</h3>
+                        <span class="badge bg-warning text-primary-dark align-self-start mb-3">Lead Designer</span>
+                        <p class="text-muted mb-3" style="line-height: 1.6;">
+                            Naman is a professional interior designer with 10+ years of experience creating modern, functional, and beautiful spaces. He specializes in residential and commercial interiors.
+                        </p>
+                        <div class="row g-2 border-top pt-3">
+                            <div class="col-sm-6">
+                                <span class="text-muted d-block" style="font-size: 0.85rem;">Email Address</span>
+                                <strong class="text-primary-dark">naman.sharma@gmail.com</strong>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="text-muted d-block" style="font-size: 0.85rem;">Contact Number</span>
+                                <strong class="text-primary-dark">+91 98765 15648</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid Cards Section -->
+    <div class="row my-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold text-primary">Core Pillars</h2>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body p-4">
                     <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
-                    <h3>Real-time Analytics</h3>
-                    <p>Make data-driven decisions with our comprehensive dashboard and reporting tools.</p>
+                    <h3 class="h5 fw-bold text-primary">Real-time Analytics</h3>
+                    <p class="text-muted mb-0">Make data-driven decisions with our comprehensive dashboard and reporting tools.</p>
                 </div>
             </div>
         </div>
         
         <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body p-4">
                     <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                    <h3>Team Collaboration</h3>
-                    <p>Seamless communication and task management for your entire team.</p>
+                    <h3 class="h5 fw-bold text-primary">Team Collaboration</h3>
+                    <p class="text-muted mb-0">Seamless communication and task management for your entire team.</p>
                 </div>
             </div>
         </div>
         
         <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body text-center">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body p-4">
                     <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
-                    <h3>Mobile Friendly</h3>
-                    <p>Access project data anytime, anywhere with our responsive mobile interface.</p>
+                    <h3 class="h5 fw-bold text-primary">Mobile Friendly</h3>
+                    <p class="text-muted mb-0">Access project data anytime, anywhere with our responsive mobile interface.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-5 bg-light p-4 rounded">
-        <div class="col-md-6">
-            <h2 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Our Story</h2>
-            <p>Founded by <span style="font-family: 'Montserrat', sans-serif; color:rgb(99, 150, 244);">Nimesh Jani</span>, BuildTrack was born from the need for better project management tools in the construction sector. After years of frustration with disjointed systems, our team set out to create an all-in-one solution.</p>
-            <p>Today, we serve over 500 companies worldwide, managing projects worth billions of dollars collectively.</p>
+    <!-- Walkthrough and Story -->
+    <div class="row my-5 bg-white p-4 rounded border shadow-sm align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h2 class="fw-bold text-primary mb-3">Our Story</h2>
+            <p class="text-dark" style="line-height: 1.6;">Founded by <span class="fw-bold text-primary">Nimesh Jani</span>, BuildTrack was born from the need for better project management tools in the construction sector. After years of frustration with disjointed systems, our team set out to create an all-in-one solution.</p>
+            <p class="text-muted mb-0" style="line-height: 1.6;">Today, we serve over 500 companies worldwide, managing projects worth billions of dollars collectively, with Bhagwati Infrastructure leading the development frontiers.</p>
         </div>
-        <div class="col-md-6 mb-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h3 class="card-title mb-3 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Project Walkthrough</h3>
-            <div class="ratio ratio-16x9 rounded">
-                <video autoplay muted loop class="rounded">
-                    <source src="{{ url_for('static', filename='videos/BuildTrack.mp4') }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 overflow-hidden">
+                <div class="card-body p-2 bg-light">
+                    <div class="ratio ratio-16x9 rounded overflow-hidden">
+                        <video autoplay muted loop class="w-100 h-100 object-fit-cover">
+                            <source src="{{ url_for('static', filename='videos/BuildTrack.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="p-2 text-center text-secondary" style="font-size: 0.85rem;">
+                        <i class="fas fa-video me-1"></i> Site construction timelapse
+                    </div>
+                </div>
             </div>
-            <p class="mt-3 text-muted">Site construction timelapse</p>
         </div>
-    </div>
-</div>
     </div>
 </div>
 {% endblock %}

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = input.value.trim();
     if (!message) return;
 
-    addMessage("You", message, "text-end");
+    addMessage("You", message, "user");
     input.value = "";
 
     fetch("/chatbot", {
@@ -25,18 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(res => res.json())
       .then(data => {
         console.log("Server response:", data);
-        addMessage("BuildBot", data.reply, "bg-light");
+        addMessage("BuildBot", data.reply, "bot");
       })
       .catch(() => {
-        addMessage("BuildBot", "Server error. Try again later.", "bg-light");
+        addMessage("BuildBot", "Server error. Try again later.", "bot");
       });
   }
 
-  function addMessage(sender, text, extraClass = "") {
+  function addMessage(sender, text, type) {
     const div = document.createElement("div");
-    div.className = `p-2 my-1 rounded ${extraClass}`;
+    // Apply premium styling classes defined in styles.css
+    div.className = `chat-bubble ${type}`;
     div.innerHTML = `<strong>${sender}:</strong> ${text}`;
     chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    // Smooth scrolling to latest message
+    chatBox.scrollTo({
+      top: chatBox.scrollHeight,
+      behavior: 'smooth'
+    });
   }
 });

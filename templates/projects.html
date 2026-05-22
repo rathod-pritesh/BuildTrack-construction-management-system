@@ -2,22 +2,29 @@
 
 {% block content %}
 <div class="container py-5">
-    <h1 class="text-center mb-5 text-primary fw-bold style="font-family: 'Montserrat', sans-serif;">Our Construction Projects</h1>
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary mb-2">Bhagwati Infrastructure Projects</h1>
+        <p class="lead text-muted">Showcasing state-of-the-art construction achievements and ongoing builds</p>
+        <div style="height: 3px; width: 80px; background-color: var(--accent-peach); margin: 1rem auto 0 auto; border-radius: 2px;"></div>
+    </div>
     
-    <div class="row row-cols-1 row-cols-lg-2 g-4" id="projectContainer">
+    <div class="row row-cols-1 row-cols-md-2 g-4" id="projectContainer">
         <!-- Project 1 -->
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="row g-0 h-100">
-                    <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden hover-card-grow">
+                <div class="row g-0 h-100 flex-column flex-sm-row">
+                    <div class="col-sm-5 position-relative" style="min-height: 200px;">
                         <img src="{{ url_for('static', filename='images/Project3.jpg') }}" 
-                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             class="position-absolute w-100 h-100 object-fit-cover" 
                              alt="Skyscraper Tower">
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body d-flex flex-column h-100">
-                            <h2 class="card-title text-primary fw-bold style="font-family: 'Montserrat', sans-serif;">Skyscraper Tower</h2>
-                            <p class="card-text flex-grow-1">A modern skyscraper with advanced architecture and sustainability features. This project includes state-of-the-art facilities and eco-friendly designs, making it a landmark in the city.</p>
+                    <div class="col-sm-7">
+                        <div class="card-body d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <span class="badge bg-success mb-2">Architectural Highlight</span>
+                                <h3 class="h4 text-primary fw-bold mb-2">Skyscraper Tower</h3>
+                                <p class="text-muted card-text" style="font-size: 0.9rem; line-height: 1.5;">A modern skyscraper with advanced architecture and sustainability features. This project includes state-of-the-art facilities and eco-friendly designs, making it a landmark in the city.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -26,17 +33,20 @@
 
         <!-- Project 2 -->
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="row g-0 h-100">
-                    <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden hover-card-grow">
+                <div class="row g-0 h-100 flex-column flex-sm-row">
+                    <div class="col-sm-5 position-relative" style="min-height: 200px;">
                         <img src="{{ url_for('static', filename='images/Project2.jpg') }}" 
-                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             class="position-absolute w-100 h-100 object-fit-cover" 
                              alt="Luxury Apartments">
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body d-flex flex-column h-100">
-                            <h2 class="card-title text-primary fw-bold style="font-family: 'Montserrat', sans-serif;">Luxury Apartments</h2>
-                            <p class="card-text flex-grow-1">High-end apartments offering a premium living experience with top facilities. These apartments are designed with luxury in mind, featuring spacious layouts and high-quality finishes.</p>
+                    <div class="col-sm-7">
+                        <div class="card-body d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <span class="badge bg-success mb-2">Residential</span>
+                                <h3 class="h4 text-primary fw-bold mb-2">Luxury Apartments</h3>
+                                <p class="text-muted card-text" style="font-size: 0.9rem; line-height: 1.5;">High-end apartments offering a premium living experience with top facilities. These apartments are designed with luxury in mind, featuring spacious layouts and high-quality finishes.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -45,17 +55,20 @@
 
         <!-- Project 3 -->
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="row g-0 h-100">
-                    <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden hover-card-grow">
+                <div class="row g-0 h-100 flex-column flex-sm-row">
+                    <div class="col-sm-5 position-relative" style="min-height: 200px;">
                         <img src="{{ url_for('static', filename='images/Project1.jpg') }}" 
-                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             class="position-absolute w-100 h-100 object-fit-cover" 
                              alt="Corporate Office Complex">
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body d-flex flex-column h-100">
-                            <h2 class="card-title text-primary fw-bold style="font-family: 'Montserrat', sans-serif;">Corporate Office Complex</h2>
-                            <p class="card-text flex-grow-1">An innovative office complex designed for efficiency and sustainability. This complex provides a modern workspace with advanced technology and green building practices.</p>
+                    <div class="col-sm-7">
+                        <div class="card-body d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <span class="badge bg-primary mb-2">Commercial</span>
+                                <h3 class="h4 text-primary fw-bold mb-2">Corporate Office Complex</h3>
+                                <p class="text-muted card-text" style="font-size: 0.9rem; line-height: 1.5;">An innovative office complex designed for efficiency and sustainability. This complex provides a modern workspace with advanced technology and green building practices.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,32 +77,37 @@
 
         <!-- Project 4 -->
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                <div class="row g-0 h-100">
-                    <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden hover-card-grow">
+                <div class="row g-0 h-100 flex-column flex-sm-row">
+                    <div class="col-sm-5 position-relative" style="min-height: 200px;">
                         <img src="{{ url_for('static', filename='images/Project4.jpg') }}" 
-                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             class="position-absolute w-100 h-100 object-fit-cover" 
                              alt="Shopping Mall">
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body d-flex flex-column h-100">
-                            <h2 class="card-title text-primary fw-bold style="font-family: 'Montserrat', sans-serif;">Shopping Mall</h2>
-                            <p class="card-text flex-grow-1">A large shopping mall with a variety of retail stores, restaurants, and entertainment options. This project is designed to be a hub for shopping and leisure activities.</p>
+                    <div class="col-sm-7">
+                        <div class="card-body d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <span class="badge bg-primary mb-2">Retail Hub</span>
+                                <h3 class="h4 text-primary fw-bold mb-2">Shopping Mall</h3>
+                                <p class="text-muted card-text" style="font-size: 0.9rem; line-height: 1.5;">A large shopping mall with a variety of retail stores, restaurants, and entertainment options. This project is designed to be a hub for shopping and leisure activities.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
-
 </div>
 
-<script>
-
-</script>
-
 <style>
-    
+  .hover-card-grow {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent !important;
+  }
+  .hover-card-grow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(43, 62, 107, 0.08) !important;
+    border-color: var(--accent-teal) !important;
+  }
 </style>
 {% endblock %}

@@ -1,14 +1,33 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>Remove Project</h2>
-  <form method="POST" action="{{ url_for('remove_project') }}">
-    <div class="form-group">
-      <label>Project ID:</label>
-      <input type="number" name="project_id" class="form-control" required>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="auth-form col-12 col-sm-10 col-md-8 col-lg-5 p-4 rounded shadow border bg-white">
+    <div class="text-center mb-4">
+      <i class="fas fa-trash-alt text-warning fa-3x mb-2"></i>
+      <h2 class="fw-bold text-primary">Remove Project</h2>
+      <p class="text-muted">Delete a project workspace permanently from database records</p>
     </div>
-    <button type="submit" class="btn btn-danger">Remove Project</button>
-  </form>
+
+    <form method="POST" action="{{ url_for('remove_project') }}">
+      <div class="alert alert-danger text-center small mb-4 py-2">
+        <i class="fas fa-exclamation-triangle me-1"></i>Warning: This action is irreversible. All related files and settings will be lost.
+      </div>
+      
+      <div class="mb-3">
+        <label for="projectId" class="form-label fw-bold">Project ID</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light text-secondary border-end-0"><i class="fas fa-fingerprint"></i></span>
+          <input type="number" name="project_id" class="form-control border-start-0" id="projectId" placeholder="Enter Project Numerical ID" required>
+        </div>
+      </div>
+
+      <div class="text-end mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary me-2 px-4">Cancel</a>
+        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-trash-alt me-2"></i>Remove Project</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
+

@@ -1,73 +1,82 @@
 {% extends "index.html" %}
-{% block  content %}
+{% block content %}
 <style>
-    .otp-input {
-      width: 3rem;
-      height: 3rem;
-      font-size: 1.5rem;
-      text-align: center;
-      margin: 0 0.3rem;
-    }
-  </style>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card shadow">
-          <div class="card-header text-center">
-            <h4>Verify OTP</h4>
-          </div>
-          <div class="card-body text-center">
-            <form method="POST" id="otpForm">
-              <div class="d-flex justify-content-center mb-3">
-                {% for i in range(6) %}
-                <input type="text" class="form-control otp-input" maxlength="1" name="otp{{ i }}" required>
-                {% endfor %}
-              </div>
-              <div class="d-grid">
-                <button type="submit" class="btn btn-success">Verify</button>
-              </div>
-            </form>
-          </div>
-          {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div class="card-footer">
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-          {% endwith %}
-        </div>
-      </div>
+  .otp-input {
+    width: 3.2rem;
+    height: 3.2rem;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 0.35rem;
+    border: 2px solid var(--neutral-sage);
+    border-radius: 8px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    transition: all 0.3s ease;
+  }
+  .otp-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(43, 62, 107, 0.15);
+  }
+</style>
+<div class="container mt-5" style="max-width: 550px;">
+  <div class="card shadow border-0">
+    <div class="card-header bg-primary text-white py-3 text-center">
+      <h4 class="mb-0 fw-bold"><i class="fas fa-shield-alt me-2 text-warning"></i>Security Verification</h4>
     </div>
+    <div class="card-body p-4 text-center">
+      <p class="text-muted mb-4">An OTP has been dispatched to your inbox. Please enter the 6-digit verification code below:</p>
+      
+      <form method="POST" id="otpForm">
+        <div class="d-flex justify-content-center mb-4">
+          {% for i in range(6) %}
+          <input type="text" class="form-control otp-input" maxlength="1" name="otp{{ i }}" autocomplete="off" required>
+          {% endfor %}
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary py-2"><i class="fas fa-check-circle me-2"></i>Verify & Authenticate</button>
+          <a href="{{ url_for('forgot_password') }}" class="btn btn-outline-primary"><i class="fas fa-redo me-2"></i>Resend Code</a>
+        </div>
+      </form>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="card-footer bg-light border-0 p-3">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category if category != 'error' else 'danger' }} mb-0">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
   </div>
+</div>
 
-  <script>
-    // Automatically focus next input
-    const inputs = document.querySelectorAll(".otp-input");
-    inputs.forEach((input, index) => {
-      input.addEventListener("input", () => {
-        if (input.value && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-      });
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && !input.value && index > 0) {
-          inputs[index - 1].focus();
-        }
-      });
+<script>
+  // Automatically focus next input
+  const inputs = document.querySelectorAll(".otp-input");
+  inputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+      if (input.value && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
     });
-  
-    // Before submit, combine digits into hidden input
-    document.getElementById("otpForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const otp = Array.from(inputs).map(i => i.value).join("");
-      const hiddenInput = document.createElement("input");
-      hiddenInput.type = "hidden";
-      hiddenInput.name = "otp";
-      hiddenInput.value = otp;
-      this.appendChild(hiddenInput);
-      this.submit();
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !input.value && index > 0) {
+        inputs[index - 1].focus();
+      }
     });
-  </script>
+  });
+
+  // Combine digits into hidden input before submitting form
+  document.getElementById("otpForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const otp = Array.from(inputs).map(i => i.value).join("");
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "otp";
+    hiddenInput.value = otp;
+    this.appendChild(hiddenInput);
+    this.submit();
+  });
+</script>
 {% endblock %}

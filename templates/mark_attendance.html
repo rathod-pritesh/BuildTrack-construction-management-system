@@ -4,39 +4,44 @@
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h3 class="mb-0"><i class="fas fa-camera me-2"></i> Face Recognition Attendance</h3>
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white py-3">
+          <h3 class="mb-0 h4 fw-bold">
+            <i class="fas fa-camera me-2 text-warning"></i>Biometric Shift Attendance Scan
+          </h3>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
           <div class="text-center mb-4">
-            <h4>{{ 'Checking In' if attendance_type == 'check_in' else 'Checking Out' }}</h4>
-            <p class="text-muted">Please look at the camera to mark your attendance.</p>
+            <h4 class="fw-bold text-primary">
+              <i class="fas fa-fingerprint text-warning me-2"></i>{{ 'Duty Shift Check-In' if attendance_type == 'check_in' else 'Duty Shift Check-Out' }}
+            </h4>
+            <p class="text-muted">Please face the camera directly. The system will auto-verify your credentials.</p>
           </div>
           
           <div class="row">
             <div class="col-12 text-center">
-              <div class="video-container border rounded" style="overflow:hidden;">
-                <img src="{{ url_for('video_feed') }}" width="100%" alt="Video Feed">
+              <div class="video-container position-relative border border-2 border-warning rounded shadow-sm overflow-hidden bg-dark mx-auto" style="max-width: 640px; aspect-ratio: 4/3;">
+                <img src="{{ url_for('video_feed') }}" class="w-100 h-100 object-fit-cover" alt="Biometric Camera Feed">
+                <!-- Custom Scanner Line animation -->
+                <div class="scanner-line position-absolute w-100 bg-warning bg-opacity-75" style="height: 3px; top: 0; left: 0; animation: scanMotion 4s linear infinite; box-shadow: 0 0 8px #ffb875;"></div>
               </div>
             </div>
           </div>
           
           <div class="mt-4 text-center">
-            <a href="{{ url_for('close_camera') }}" class="btn btn-danger">
-              <i class="fas fa-times-circle me-2"></i>Close Camera
+            <a href="{{ url_for('close_camera') }}" class="btn btn-danger px-4 py-2">
+              <i class="fas fa-times-circle me-2"></i>Cancel & Close Camera
             </a>
           </div>
           
           <div class="mt-4">
-            <div class="alert alert-info">
-              <i class="fas fa-info-circle me-2"></i>
-              <strong>Instructions:</strong>
-              <ul class="mb-0 mt-2">
-                <li>Make sure your face is clearly visible</li>
-                <li>The system will automatically detect your face and mark attendance</li>
-                <li>Once your attendance is marked, the camera will close automatically</li>
-                <li>You can also click "Close Camera" at any time</li>
+            <div class="p-3 bg-light rounded border border-light text-dark">
+              <h5 class="h6 fw-bold text-primary mb-2"><i class="fas fa-info-circle text-warning me-1"></i>Scanning Guide:</h5>
+              <ul class="mb-0 ps-3 text-muted" style="font-size: 0.9rem; line-height: 1.6;">
+                <li>Ensure your face is in full lighting and clearly visible.</li>
+                <li>Hold still. Face detection validation takes about 2-3 seconds.</li>
+                <li>Once detected, the scanner will record your shift log and auto-return to the dashboard.</li>
+                <li>If the scan fails, you can close the camera feed and retry.</li>
               </ul>
             </div>
           </div>
@@ -46,28 +51,35 @@
   </div>
 </div>
 
+<style>
+  @keyframes scanMotion {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+  }
+</style>
+
 <script>
-  // Keep your existing timeout code
+  // Redirect to dashboard after 60 seconds of inactivity
   setTimeout(function() {
     window.location.href = "{{ url_for('dashboard') }}";
   }, 60000);
   
-  // Add new AJAX polling for face detection
-document.addEventListener('DOMContentLoaded', function() {
-  // Check for detection every 1 second
-  const checkInterval = setInterval(function() {
-    fetch("{{ url_for('check_detection') }}")
-      .then(response => response.json())
-      .then(data => {
-        if (data.detected) {
-          clearInterval(checkInterval);
-          console.log("Face detected: " + data.name);
-          // Redirect to dashboard after detection
-          window.location.href = data.redirect;
-        }
-      })
-      .catch(error => console.error('Error checking detection:', error));
-  }, 1000);
-});
-  </script>
+  // AJAX polling for face detection status
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkInterval = setInterval(function() {
+      fetch("{{ url_for('check_detection') }}")
+        .then(response => response.json())
+        .then(data => {
+          if (data.detected) {
+            clearInterval(checkInterval);
+            console.log("Face detected: " + data.name);
+            // Redirect to destination
+            window.location.href = data.redirect;
+          }
+        })
+        .catch(error => console.error('Error checking detection:', error));
+    }, 1000);
+  });
+</script>
 {% endblock %}

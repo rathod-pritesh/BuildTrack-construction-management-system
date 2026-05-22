@@ -2,79 +2,102 @@
 
 {% block content %}
 <div class="container-fluid mt-4">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <h2 style="color:rgb(99, 150, 244); font-family: 'Montserrat', sans-serif; font-weight: 600;"> Welcome, {{ username }}!</h2>
+  <!-- Greeting Header -->
+  <div class="card-header d-flex justify-content-between align-items-center rounded shadow-sm mb-4 px-4 py-3 bg-primary text-white">
+    <h2 class="h3 fw-bold mb-0">
+      <i class="fas fa-user-circle text-warning me-2"></i>Welcome, {{ username }}!
+    </h2>
     
     <!-- Profile icon and dropdown menu -->
     <div class="dropdown">
       <div class="profile-icon" data-bs-toggle="dropdown" aria-expanded="false">
         {% if profile_image %}
-          <img src="{{ url_for('static', filename='uploads/profile/' + profile_image) }}" alt="Profile" class="rounded-circle border border-primary" width="50" height="50">
+          <img src="{{ url_for('static', filename='uploads/profile/' + profile_image) }}" alt="Profile" class="rounded-circle border border-2 border-warning" width="48" height="48">
         {% else %}
-          <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center text-white" style="width: 50px; height: 50px; cursor: pointer;">
-            <span style="font-size: 1.2rem;">{{ username[0]|upper }}</span>
+          <div class="rounded-circle bg-warning d-flex justify-content-center align-items-center text-primary-dark" style="width: 48px; height: 48px; cursor: pointer; font-weight: 800;">
+            <span style="font-size: 1.25rem;">{{ username[0]|upper }}</span>
           </div>
         {% endif %}
       </div>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li class="dropdown-item-text">
+      <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+        <li class="dropdown-item-text border-bottom pb-2 mb-2">
           <div class="d-flex flex-column">
-            <strong>{{ username }}</strong>
+            <strong class="text-dark">{{ username }}</strong>
             <small class="text-muted">{{ email }}</small>
           </div>
         </li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-user me-2"></i>My Profile</a></li>
-        <li><a class="dropdown-item" href="{{ url_for('account_settings') }}"><i class="fas fa-cog me-2"></i>Account Settings</a></li>
-        <li><a class="dropdown-item" href="{{ url_for('activity_log') }}"><i class="fas fa-clock me-2"></i>Activity Log</a></li>
-        <li><a class="dropdown-item" href="{{ url_for('user_change_password') }}" class="btn btn-outline-secondary"><i class="fas fa-lock"></i> Change Password</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-user me-2 text-primary"></i>My Profile</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('account_settings') }}"><i class="fas fa-cog me-2 text-primary"></i>Account Settings</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('activity_log') }}"><i class="fas fa-clock me-2 text-primary"></i>Activity Log</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('user_change_password') }}"><i class="fas fa-lock me-2 text-primary"></i>Change Password</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
       </ul>
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-8 col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <p class="lead" style="color:rgb(99, 150, 244);"><span style="font-weight: 500;">🔐 You are logged in with: <strong>{{ email }}</strong></p>
-            
-          <!-- Mark Attendance Button -->
-          <div class="d-flex justify-content-center my-3">
-            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#markAttendanceModal">
-              <i class="fas fa-calendar-check me-2"></i> Mark Attendance
-            </button>
-          </div>
-          <hr />
 
-          <!-- Upload Report -->
-          <div class="d-flex justify-content-center my-3">
-          <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#reportsUploadModal">
-            <i class="fas fa-file-upload"></i> Upload Report
-          </button>
+  <div class="row">
+    <!-- Main Content Area -->
+    <div class="col-lg-8 col-md-12">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <div class="p-3 bg-light rounded border border-light mb-4">
+            <p class="lead mb-0 text-primary fw-bold">
+              <i class="fas fa-shield-alt text-warning me-2"></i>Logged in as: <span class="text-dark fw-normal">{{ email }}</span>
+            </p>
           </div>
-          <hr/>
+            
+          <!-- Quick Action Buttons -->
+          <div class="row g-3 justify-content-center my-2">
+            <div class="col-sm-6 col-md-5">
+              <button type="button" class="btn btn-primary w-100 py-3 shadow-sm d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#markAttendanceModal">
+                <i class="fas fa-camera fa-lg"></i> Mark Attendance
+              </button>
+            </div>
+            <div class="col-sm-6 col-md-5">
+              <button type="button" class="btn btn-outline-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#reportsUploadModal">
+                <i class="fas fa-file-upload fa-lg"></i> Upload Report
+              </button>
+            </div>
+          </div>
+          <hr class="my-4" />
 
           <!-- Attendance Report Section -->
-          <h4 class="mt-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">📋 Attendance Report</h4>
-          <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <h4 class="text-primary fw-bold mb-0">
+              <i class="fas fa-calendar-check text-warning me-2"></i>Attendance Log
+            </h4>
+          </div>
+          
+          <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
             {% for record in records %}
             <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="card-header bg-{{ 'success' if record.attendance_status == 'present' else 'danger' if record.attendance_status == 'absent' else 'warning' }} text-white">
-                  <h5 class="card-title mb-0">{{ record.attendance_date.strftime('%Y-%m-%d') }}</h5>
+              <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2">
+                  <h5 class="card-title h6 mb-0">{{ record.attendance_date.strftime('%Y-%m-%d') }}</h5>
+                  <span class="badge bg-{{ 'success' if record.attendance_status == 'present' else 'danger' if record.attendance_status == 'absent' else 'warning' }}">
+                    {{ record.attendance_status }}
+                  </span>
                 </div>
-                <div class="card-body">
-                  <p class="card-text">
-                    <strong>Status:</strong> 
-                    <span class="badge bg-{{ 'success' if record.attendance_status == 'present' else 'danger' if record.attendance_status == 'absent' else 'warning' }}">
-                      {{ record.attendance_status }}
-                    </span><br>
-                    <strong>Check-In:</strong> {{ record.check_in_time.strftime('%H:%M:%S') if record.check_in_time else 'N/A' }}<br>
-                    <strong>Check-Out:</strong> {{ record.check_out_time.strftime('%H:%M:%S') if record.check_out_time else 'N/A' }}<br>
-                    <strong>Work Hours:</strong> {{ record.work_hours }} hours<br>
-                    <strong>Overtime:</strong> {{ record.overtime_hours }} hours
-                  </p>
+                <div class="card-body py-3">
+                  <div class="row g-2">
+                    <div class="col-6">
+                      <small class="text-muted d-block">Check-In</small>
+                      <strong class="text-dark">{{ record.check_in_time.strftime('%H:%M:%S') if record.check_in_time else 'N/A' }}</strong>
+                    </div>
+                    <div class="col-6">
+                      <small class="text-muted d-block">Check-Out</small>
+                      <strong class="text-dark">{{ record.check_out_time.strftime('%H:%M:%S') if record.check_out_time else 'N/A' }}</strong>
+                    </div>
+                    <div class="col-6 mt-2">
+                      <small class="text-muted d-block">Work Hours</small>
+                      <strong class="text-dark">{{ record.work_hours }} hrs</strong>
+                    </div>
+                    <div class="col-6 mt-2">
+                      <small class="text-muted d-block">Overtime</small>
+                      <strong class="text-dark text-warning">{{ record.overtime_hours }} hrs</strong>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,46 +105,54 @@
             
             {% if not records %}
             <div class="col-12">
-              <div class="card h-100 shadow-sm">
-                <div class="card-body text-center text-danger">
-                  <p class="mb-0">No attendance records found.</p>
-                </div>
+              <div class="p-4 text-center border border-dashed rounded text-muted">
+                <i class="fas fa-exclamation-circle fa-2x mb-2 text-warning"></i>
+                <p class="mb-0">No attendance records found for this billing cycle.</p>
               </div>
             </div>
             {% endif %}
           </div>
 
           <!-- Projects Section -->
-          <h4 class="mt-4 text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">🎯 Your Projects</h4>
-          <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div class="d-flex align-items-center mb-3 mt-5">
+            <h4 class="text-primary fw-bold mb-0">
+              <i class="fas fa-hard-hat text-warning me-2"></i>Your Projects
+            </h4>
+          </div>
+          
+          <div class="row row-cols-1 row-cols-md-2 g-3">
             {% for project in projects %}
             <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="card-header bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' }} text-white">
-                  <h5 class="card-title mb-0">{{ project.name }}</h5>
+              <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2">
+                  <h5 class="card-title h6 mb-0">{{ project.name }}</h5>
+                  <span class="badge bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' }}">
+                    {{ project.status }}
+                  </span>
                 </div>
                 <div class="card-body">
-                  <p class="card-text">
-                    <strong>ID:</strong> {{ project.id }}<br>
-                    <strong>Dates:</strong> {{ project.start_date }} to {{ project.end_date }}<br>
-                    <strong>Budget:</strong> ₹{{ project.budget }}<br>
-                    <strong>Status:</strong> 
-                    <span class="badge bg-{{ 'success' if project.status == 'active' else 'warning' if project.status == 'pending' else 'secondary' }}">
-                      {{ project.status }}
-                    </span>
+                  <p class="card-text mb-2">
+                    <small class="text-muted d-block">Project Location</small>
+                    <strong class="text-dark">{{ project.project_location or 'Ahmedabad' }}</strong>
+                  </p>
+                  <p class="card-text mb-2">
+                    <small class="text-muted d-block">Duration</small>
+                    <strong class="text-dark">{{ project.start_date }} to {{ project.end_date }}</strong>
+                  </p>
+                  <p class="card-text mb-0">
+                    <small class="text-muted d-block">Allocated Budget</small>
+                    <strong class="text-success">₹{{ project.budget }}</strong>
                   </p>
                 </div>
-                
               </div>
             </div>
             {% endfor %}
             
             {% if not projects %}
             <div class="col-12">
-              <div class="card h-100 shadow-sm">
-                <div class="card-body text-center text-danger">
-                  <p class="mb-0">No projects assigned to you yet.</p>
-                </div>
+              <div class="p-4 text-center border border-dashed rounded text-muted">
+                <i class="fas fa-folder-open fa-2x mb-2 text-warning"></i>
+                <p class="mb-0">No active projects assigned to you yet.</p>
               </div>
             </div>
             {% endif %}
@@ -130,63 +161,59 @@
       </div>
     </div>
 
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="text-primary fw-bold" style="font-family: 'Montserrat', sans-serif;">Project Details</h4>
+    <!-- Sidebar Section -->
+    <div class="col-lg-4 col-md-12">
+      <!-- Project Details Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+          <h4 class="h5 mb-0"><i class="fas fa-clipboard-list me-2 text-warning"></i>Quick Panels</h4>
         </div>
         <div class="card-body">
-          <p>Select a project from the list to view detailed information.</p>
-          <div class="mt-4">
-            <h5>Quick Links</h5>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="{{ url_for('projects') }}"><i class="fas fa-project-diagram"></i> All Projects</a>
-              </li>
-              <li class="list-group-item">
-                <a href="#" id="notificationLink"><i class="fas fa-bell"></i> Notifications
-                  <span class="badge bg-danger rounded-pill"></span>
-                </a>
-                <div class="container-fluid mt-4">
-                  <!-- Admin Uploaded Reports Section -->
-  <h4 class="mt-4 text-primary fw-bold">Admin Uploaded Reports</h4>
-  <ul class="list-group mb-4">
-    {% for report in admin_reports %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <a href="{{ url_for('static', filename='uploads/reports/' + report.original_filename) }}" target="_blank">
-          {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
-        </a>
-      </li>
-    {% endfor %}
-    {% if not admin_reports %}
-      <li class="list-group-item text-danger">No reports uploaded yet.</li>
-    {% endif %}
-  </ul>
-        <!-- Member Uploaded Reports Section -->
-  <h4 class="mt-4 text-primary fw-bold">Member Uploaded Reports</h4>
-  <ul class="list-group mb-4">
-    {% for report in member_reports %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <div>
-          <a href="{{ url_for('static', filename='uploads/reports/member_reports/' + report.original_filename) }}" target="_blank">
-            {{ report.title }} ({{ report.upload_date.strftime('%Y-%m-%d') }})
-          </a>
-          <form method="POST" action="{{ url_for('delete_member_report') }}" style="display:inline;">
-            <input type="hidden" name="report_id" value="{{ report.id }}">
-            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-              <i class="fas fa-trash-alt"></i>
+          <h5 class="h6 text-primary fw-bold mb-3">Navigation</h5>
+          <div class="list-group mb-4 shadow-sm">
+            <a href="{{ url_for('projects') }}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between text-dark">
+              <span><i class="fas fa-project-diagram text-primary me-2"></i>All Projects</span>
+              <i class="fas fa-chevron-right text-muted fa-sm"></i>
+            </a>
+            <button class="list-group-item list-group-item-action d-flex align-items-center justify-content-between text-dark" data-bs-toggle="modal" data-bs-target="#calculatorModal">
+              <span><i class="fas fa-calculator text-primary me-2"></i>Construction Calculator</span>
+              <i class="fas fa-chevron-right text-muted fa-sm"></i>
             </button>
-          </form>
-        </div>
-      </li>
-    {% endfor %}
-    {% if not member_reports %}
-      <li class="list-group-item text-danger">No member reports uploaded yet.</li>
-    {% endif %}
-  </ul>
-</div>        
-                  
-                </div>
+          </div>
+          
+          <!-- Admin Uploaded Reports Section -->
+          <h5 class="h6 text-primary fw-bold mb-3"><i class="fas fa-file-pdf text-danger me-2"></i>Admin Reports</h5>
+          <div class="list-group mb-4 shadow-sm">
+            {% for report in admin_reports %}
+              <a href="{{ url_for('static', filename='uploads/reports/' + report.original_filename) }}" target="_blank" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between text-dark">
+                <span><i class="fas fa-file-alt text-muted me-2"></i>{{ report.title }}</span>
+                <small class="text-muted">{{ report.upload_date.strftime('%m-%d') }}</small>
+              </a>
+            {% endfor %}
+            {% if not admin_reports %}
+              <div class="list-group-item text-muted text-center py-3">No admin documents published.</div>
+            {% endif %}
+          </div>
+          
+          <!-- Member Uploaded Reports Section -->
+          <h5 class="h6 text-primary fw-bold mb-3"><i class="fas fa-file-upload text-success me-2"></i>My Submissions</h5>
+          <div class="list-group shadow-sm">
+            {% for report in member_reports %}
+              <div class="list-group-item d-flex justify-content-between align-items-center text-dark">
+                <a href="{{ url_for('static', filename='uploads/reports/member_reports/' + report.original_filename) }}" target="_blank" class="text-decoration-none text-dark flex-grow-1">
+                  <i class="fas fa-file-pdf text-danger me-2"></i>{{ report.title }}
+                </a>
+                <form method="POST" action="{{ url_for('delete_member_report') }}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this submission?')">
+                  <input type="hidden" name="report_id" value="{{ report.id }}">
+                  <button type="submit" class="btn btn-sm btn-link text-danger p-0 border-0 ms-2">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </form>
+              </div>
+            {% endfor %}
+            {% if not member_reports %}
+              <div class="list-group-item text-muted text-center py-3">No submissions recorded.</div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -194,33 +221,36 @@
   </div>
 </div>
 
-
 <!-- Mark Attendance Modal -->
 <div class="modal fade" id="markAttendanceModal" tabindex="-1" aria-labelledby="markAttendanceModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="markAttendanceModalLabel">Mark Attendance</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="markAttendanceModalLabel">
+          <i class="fas fa-camera me-2 text-warning"></i>Biometric Check-In/Out
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Select attendance type:</p>
+        <p class="text-muted mb-4">Select attendance status for face recognition validation:</p>
         <form action="{{ url_for('mark_attendance') }}" method="post">
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="attendance_type" id="checkIn" value="check_in" checked>
-            <label class="form-check-label" for="checkIn">
-              <i class="fas fa-sign-in-alt text-success me-2"></i>Check In
-            </label>
+          <div class="card p-3 mb-4 bg-light border-0">
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="radio" name="attendance_type" id="checkIn" value="check_in" checked>
+              <label class="form-check-label" for="checkIn">
+                <i class="fas fa-sign-in-alt text-success me-2"></i>Start Duty Shift (Check-In)
+              </label>
+            </div>
+            <div class="form-check mb-0">
+              <input class="form-check-input" type="radio" name="attendance_type" id="checkOut" value="check_out">
+              <label class="form-check-label" for="checkOut">
+                <i class="fas fa-sign-out-alt text-danger me-2"></i>End Duty Shift (Check-Out)
+              </label>
+            </div>
           </div>
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="attendance_type" id="checkOut" value="check_out">
-            <label class="form-check-label" for="checkOut">
-              <i class="fas fa-sign-out-alt text-danger me-2"></i>Check Out
-            </label>
-          </div>
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-camera me-2"></i>Proceed to Face Recognition
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-video me-2"></i>Start Scan Camera
             </button>
           </div>
         </form>
@@ -230,70 +260,33 @@
 </div>
 
 <!-- Reports Upload Modal -->
-<div
-  class="modal fade"
-  id="reportsUploadModal"
-  tabindex="-1"
-  aria-labelledby="reportsUploadModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="reportsUploadModalLabel">Upload Reports</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+<div class="modal fade" id="reportsUploadModal" tabindex="-1" aria-labelledby="reportsUploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportsUploadModalLabel">
+          <i class="fas fa-file-upload me-2 text-warning"></i>Upload Daily Progress Report
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form
-          action="{{ url_for('upload_member_report') }}"
-          method="post"
-          enctype="multipart/form-data"
-        >
+        <form action="{{ url_for('upload_member_report') }}" method="post" enctype="multipart/form-data">
           <div class="mb-3">
-            <label for="reportFile" class="form-label"
-              >Select Report File (PDF only, max 10MB)</label
-            >
-            <input
-              class="form-control"
-              type="file"
-              id="reportFile"
-              name="report_file"
-              accept=".pdf"
-              required
-            />
-            <div class="form-text">
-              Only PDF files are accepted. Maximum file size: 10MB.
-            </div>
+            <label for="reportFile" class="form-label">Select PDF Document (Max 10MB)</label>
+            <input class="form-control" type="file" id="reportFile" name="report_file" accept=".pdf" required />
+            <div class="form-text text-muted">Only PDF files are approved. Maximum file size is 10MB.</div>
           </div>
           <div class="mb-3">
-            <label for="reportTitle" class="form-label">Report Title</label>
-            <input
-              type="text"
-              class="form-control"
-              id="reportTitle"
-              name="report_title"
-              required
-            />
+            <label for="reportTitle" class="form-label">Document Title</label>
+            <input type="text" class="form-control" id="reportTitle" name="report_title" placeholder="e.g. Daily Progress Report - Ahmedabad Site" required />
           </div>
-          <div class="mb-3">
-            <label for="reportDescription" class="form-label"
-              >Description (Optional)</label
-            >
-            <textarea
-              class="form-control"
-              id="reportDescription"
-              name="report_description"
-              rows="3"
-            ></textarea>
+          <div class="mb-4">
+            <label for="reportDescription" class="form-label">Description / Work Scope Notes (Optional)</label>
+            <textarea class="form-control" id="reportDescription" name="report_description" rows="3" placeholder="Describe the materials, tasks or achievements..."></textarea>
           </div>
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-upload me-2"></i>Upload Report
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-cloud-upload-alt me-2"></i>Upload to Project Panel
             </button>
           </div>
         </form>
@@ -302,44 +295,45 @@
   </div>
 </div>
 
+<!-- Calculator Modal -->
 <div class="modal fade" id="calculatorModal" tabindex="-1" aria-labelledby="calculatorModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content" id="calculatorCard">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content border-0 shadow">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="calculatorModalLabel"><i class="fas fa-calculator me-2"></i>Calculator</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="calculatorModalLabel">
+          <i class="fas fa-calculator me-2 text-warning"></i>Calculator
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <input type="text" id="calcDisplay" class="form-control text-end mb-3" readonly />
+      <div class="modal-body p-3">
+        <input type="text" id="calcDisplay" class="form-control text-end mb-3 font-monospace fw-bold fs-4 bg-light border-0" readonly style="letter-spacing: 1px;" />
         <div class="row g-2">
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">7</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">8</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">9</button></div>
-          <div class="col-3"><button class="btn btn-warning w-100 calc-btn">/</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">7</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">8</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">9</button></div>
+          <div class="col-3"><button class="btn btn-outline-primary w-100 calc-btn py-3 fw-bold">/</button></div>
 
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">4</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">5</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">6</button></div>
-          <div class="col-3"><button class="btn btn-warning w-100 calc-btn">*</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">4</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">5</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">6</button></div>
+          <div class="col-3"><button class="btn btn-outline-primary w-100 calc-btn py-3 fw-bold">*</button></div>
 
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">1</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">2</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">3</button></div>
-          <div class="col-3"><button class="btn btn-warning w-100 calc-btn">-</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">1</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">2</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">3</button></div>
+          <div class="col-3"><button class="btn btn-outline-primary w-100 calc-btn py-3 fw-bold">-</button></div>
 
-          <div class="col-3"><button class="btn btn-danger w-100" id="calcClear">C</button></div>
-          <div class="col-3"><button class="btn btn-light w-100 calc-btn">0</button></div>
-          <div class="col-3"><button class="btn btn-success w-100" id="calcEqual">=</button></div>
-          <div class="col-3"><button class="btn btn-warning w-100 calc-btn">+</button></div>
+          <div class="col-3"><button class="btn btn-danger w-100 py-3 fw-bold" id="calcClear">C</button></div>
+          <div class="col-3"><button class="btn btn-light w-100 calc-btn py-3 fw-bold">0</button></div>
+          <div class="col-3"><button class="btn btn-success w-100 py-3 fw-bold text-white bg-success" id="calcEqual">=</button></div>
+          <div class="col-3"><button class="btn btn-outline-primary w-100 calc-btn py-3 fw-bold">+</button></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
 <style>
-  .card-header h5 { font-size: 1.1rem; }
   .profile-icon {
     position: relative;
     cursor: pointer;
@@ -351,7 +345,18 @@
   }
   
   .dropdown-item:active {
-    background-color: rgb(99, 150, 244);
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+  }
+
+  .list-group-item-action:hover {
+    background-color: rgba(96, 147, 159, 0.08) !important;
+  }
+
+  .border-dashed {
+    border-style: dashed !important;
+    border-width: 2px !important;
+    border-color: var(--neutral-sage) !important;
   }
 </style>
 {% endblock %}
